@@ -1,0 +1,125 @@
+---
+import PhotoSlot from './PhotoSlot.astro';
+
+/**
+ * The proof device: the same room with the mechanism stowed, and with it
+ * deployed. Drag the pull, or use the arrow keys.
+ *
+ * Both sides are photography slots today. Swap the two <PhotoSlot> calls for
+ * <img> from the same tripod position and the component needs no other change.
+ */
+interface Props {
+  beforeWhat: string;
+  afterWhat: string;
+  beforePath: string;
+  afterPath: string;
+  beforeTag?: string;
+  afterTag?: string;
+  label?: string;
+}
+const {
+  beforeWhat,
+  afterWhat,
+  beforePath,
+  afterPath,
+  beforeTag = 'Stowed',
+  afterTag = 'Deployed',
+  // Input-agnostic on purpose: this is operable by pointer, touch and arrow
+  // keys, so the label must not name only one of them.
+  label = 'Compare the stowed and deployed states',
+} = Astro.props;
+---
+
+<div class="ba" data-ba data-ba-after={afterTag.toLowerCase()} style="--pos:50%">
+  <div class="ba__face ba__face--before">
+    <PhotoSlot what={beforeWhat} path={beforePath} ratio="16 / 9" kicker="Photograph required — A" />
+  </div>
+  <div class="ba__face ba__face--after">
+    <PhotoSlot what={afterWhat} path={afterPath} ratio="16 / 9" kicker="Photograph required — B" />
+  </div>
+
+  <span class="ba__tag ba__tag--l">{beforeTag}</span>
+  <span class="ba__tag ba__tag--r">{afterTag}</span>
+
+  <input
+    class="ba__range"
+    type="range"
+    min="0"
+    max="100"
+    step="1"
+    value="50"
+    aria-label={label}
+    data-ba-range
+  />
+  <span class="ba__handle" aria-hidden="true"><span class="ba__pull"></span></span>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-ba]').forEach((box) => {
+    const range = box.querySelector<HTMLInputElement>('[data-ba-range]');
+    if (!range) return;
+
+    // A screen reader announcing "56" would be meaningless; announce what the
+    // 56 is a proportion of.
+    const afterWord = box.dataset.baAfter || 'deployed';
+    const set = (v: number) => {
+      box.style.setProperty('--pos', `${v}%`);
+      range.setAttribute('aria-valuetext', `${Math.round(v)}% ${afterWord}`);
+    };
+    range.addEventListener('input', () => set(Number(range.value)));
+    set(Number(range.value));
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced || !('IntersectionObserver' in window)) return;
+
+    // On first sight it demonstrates itself: fully stowed, then travelling
+    // open on the shared curve. After that it is the visitor's to drag.
+    let played = false;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting || played) continue;
+          played = true;
+          io.disconnect();
+
+          const start = performance.now();
+          const from = 100;
+          const to = 52;
+          const dur = 1100;
+          // The CSS easing curve, in JS, so the two never drift apart.
+          const ease = (t: number) => {
+            // cubic-bezier(0.65, 0.02, 0.22, 1), sampled by Newton iteration
+            const cx = 3 * 0.65, bx = 3 * (0.22 - 0.65) - cx, ax = 1 - cx - bx;
+            const cy = 3 * 0.02, by = 3 * (1 - 0.02) - cy, ay = 1 - cy - by;
+            let x = t;
+            for (let i = 0; i < 6; i++) {
+              const fx = ((ax * x + bx) * x + cx) * x - t;
+              const dx = (3 * ax * x + 2 * bx) * x + cx;
+              if (Math.abs(dx) < 1e-6) break;
+              x -= fx / dx;
+            }
+            return ((ay * x + by) * x + cy) * x;
+          };
+
+          set(from);
+          range.value = String(from);
+
+          const tick = (now: number) => {
+            const t = Math.min(1, (now - start) / dur);
+            const v = from + (to - from) * ease(t);
+            set(v);
+            range.value = String(Math.round(v));
+            if (t < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }
+      },
+      { threshold: 0.4 },
+    );
+    io.observe(box);
+
+    // If the visitor grabs it mid-demonstration, they win.
+    range.addEventListener('pointerdown', () => { played = true; io.disconnect(); });
+    range.addEventListener('keydown', () => { played = true; io.disconnect(); });
+  });
+</script>

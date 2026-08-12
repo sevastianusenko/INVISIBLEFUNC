@@ -1,0 +1,182 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Seam from '../components/Seam.astro';
+import PhotoSlot from '../components/PhotoSlot.astro';
+import Cta from '../components/Cta.astro';
+import { site } from '../data/site';
+
+const standards = [
+  ['The reveal is even along its whole length', 'Not just at the corners, where it is easy, and not just on install day.'],
+  ['Everything has a manual override', 'Reachable without demolition, documented in writing, demonstrated at handoff.'],
+  ['The second option is written down', 'Including its price, so you can see the decision instead of inheriting it.'],
+  ['The mechanism is cycled under load before it ships', 'Failures belong on a bench in Ephrata, not in a finished ceiling.'],
+  ['One person is accountable', 'Millwork, mechanism, wiring and finish. There is nobody else to point at.'],
+];
+---
+
+<Base
+  title="About — one shop, four trades | Invisible Function"
+  description="A one-person shop in Ephrata, PA doing all four parts of a concealment job: millwork, mechanism, low-voltage wiring and the finish work around it."
+>
+  <PageHero
+    eyebrow="About"
+    lines={['One person,', 'four trades,', 'no badge']}
+    lead="Invisible Function is a shop in Ephrata, Pennsylvania that does one narrow thing: it makes equipment disappear into buildings, and takes responsibility for every part of that — the millwork, the mechanism, the wiring and the finish work."
+  />
+
+  <!-- ── Why it exists ────────────────────────────────────────────────────── -->
+  <section class="section surface-paper">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Why</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">This trade has a seam running through it</h2></div>
+          <div class="prose" style="margin-top:1.2rem">
+            <p>
+              A concealed television is four trades. A cabinet shop builds the case.
+              An integrator supplies the lift and pulls the wire. An electrician gets
+              power to it. A drywall finisher closes the wall around it, usually weeks
+              later, usually without having seen what is behind the surface they are
+              skimming.
+            </p>
+            <p>
+              Each of them is competent. None of them owns the result. When the panel
+              binds, or the reveal runs out along its length, or a faint rectangle
+              appears in the ceiling in afternoon light, the honest answer is that it
+              was nobody's fault in particular — which is no use at all to the person
+              who paid for it.
+            </p>
+            <p>
+              Invisible Function exists to remove that seam by doing all four parts.
+              It is a deliberately small business and it will stay small, because the
+              thing being sold is that one person did the whole job.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Independence ─────────────────────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Independence</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Nothing to sell you first</h2></div>
+          <div class="prose" style="margin-top:1.2rem">
+            <p>
+              There is no dealer agreement here, no annual volume commitment, and no
+              showroom full of one manufacturer's mechanisms that need moving. Auton,
+              Nexus&nbsp;21, Future&nbsp;Automation, Firgelli and Sonance all make
+              equipment worth specifying, in different situations, at wildly different
+              prices.
+            </p>
+            <p>
+              The practical effect is small but it decides everything: the
+              specification starts at the opening and works toward a mechanism,
+              rather than starting at a mechanism and working toward the opening.
+              Occasionally that means telling a client the cheap actuator really is
+              the right answer for their bench, and losing several thousand dollars of
+              margin by saying so.
+            </p>
+          </div>
+
+          <div class="pair" style="margin-top:clamp(2rem,4vw,3rem)">
+            <PhotoSlot
+              what="Portrait at the bench, working, not posed to camera. Natural light, shop in the background."
+              ratio="4 / 5"
+              path="/images/about/portrait.jpg"
+              kicker="Portrait required"
+            />
+            <PhotoSlot
+              what="Hands and a tool at work — a detail shot that reads as craft rather than as stock photography"
+              ratio="4 / 5"
+              path="/images/about/hands-detail.jpg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================
+       OWNER BACKGROUND
+       Left empty on purpose. This is the one section on the site that
+       cannot be written by anyone but the owner, and inventing a career
+       history would undo everything the rest of the page is arguing for.
+
+       Fill in: trade background, training, what you built before this,
+       and why concealment specifically. Three short paragraphs is plenty.
+       Then delete this comment and unwrap the markup below.
+
+       <section class="section surface-paper">
+         <div class="wrap">
+           <div class="rail">
+             <p class="label rail__label">Background</p>
+             <div class="prose">…</div>
+           </div>
+         </div>
+       </section>
+       =================================================================== -->
+
+  <!-- ── Standards ────────────────────────────────────────────────────────── -->
+  <section class="section surface-dark">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label label--accent">Standards</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Five things that do not get traded away</h2></div>
+          <p class="lead soft" style="margin-top:1.1rem;max-width:56ch">
+            A new business has no track record to point at. What it can do is state
+            its standards plainly enough to be held to them.
+          </p>
+
+          <dl class="spec" style="margin-top:clamp(1.75rem,3vw,2.5rem);max-width:66ch">
+            {
+              standards.map(([k, v]) => (
+                <div class="spec__row" style="grid-template-columns:minmax(0,1fr);gap:.4rem">
+                  <dt class="spec__k">{k}</dt>
+                  <dd class="price__body" style="margin:0">{v}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Where ────────────────────────────────────────────────────────────── -->
+  <section class="section section--tight surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">The shop</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">{site.city}, Lancaster County</h2></div>
+          <p style="margin-top:1.1rem;max-width:62ch">
+            The workshop is in {site.city}, which puts Lancaster, Lititz, Hershey,
+            York, Harrisburg and Reading inside a comfortable round trip. That
+            matters more than it sounds: this trade involves a second visit for
+            adjustment months after the invoice is paid, and a business that cannot
+            afford to make that drive quietly stops making it.
+          </p>
+          <p class="mono soft" style="margin-top:1.4rem">
+            {site.city}, {site.regionName} {site.postalCode} &nbsp;·&nbsp; {site.hours}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    title="Easiest way to judge a new shop is to give it something awkward"
+    body="The ceiling nobody wants to open. The lift that has already been returned once. The opening that was framed to the wrong dimension."
+    secondary={{ href: '/for-trade/', label: 'Trade terms' }}
+  />
+</Base>

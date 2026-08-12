@@ -1,0 +1,146 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Seam from '../../components/Seam.astro';
+import PhotoSlot from '../../components/PhotoSlot.astro';
+import Faq from '../../components/Faq.astro';
+import Cta from '../../components/Cta.astro';
+import { areaSchema, faqSchema } from '../../lib/schema';
+
+const path = '/areas/lititz-pa/';
+const description =
+  'TV lifts, hidden doors and invisible speakers in Lititz, PA — fifteen minutes from the shop, in a town that already knows what good work costs.';
+
+const faqs = [
+  {
+    q: 'Is there enough room in a Lititz borough house for a lift?',
+    a: 'Almost always, but not where people expect. The borough houses are tight and often deep rather than wide, so the mechanism ends up in a piece of furniture against a party wall, or in a stair bulkhead nobody was using. The measuring visit is short — these houses are small enough to read quickly.',
+  },
+  {
+    q: 'Do you work with the cabinet shops around Lititz?',
+    a: 'Yes, and they are the reason this area is worth a page of its own. There is more good casework per square mile here than anywhere else I work, and the mechanism is consistently the piece those shops would rather not own. That is exactly the subcontract this business is built for.',
+  },
+  {
+    q: 'Can invisible speakers go into a plastered borough ceiling?',
+    a: 'Often, yes, but the finish work matters more than usual because those ceilings are frequently original lath and plaster with a century of movement in them. That is a level-5 skim and a feathered edge, not a patch — which is why the finishing is in my scope rather than passed to a painter.',
+  },
+  {
+    q: 'How quickly can you get to Lititz?',
+    a: 'Fifteen minutes from the shop in Ephrata. It is the closest of the named service areas, and short-notice service calls here are genuinely short notice.',
+  },
+];
+---
+
+<Base
+  title="Concealment work in Lititz, PA | Invisible Function"
+  description={description}
+  schema={[areaSchema({ city: 'Lititz', path, description }), faqSchema(faqs)]}
+>
+  <PageHero
+    eyebrow="Service area · Lititz"
+    lines={['A town that', 'already knows', 'what good costs']}
+    lead="Lititz is fifteen minutes from the shop and has an unusually informed client base — a professional audio industry on its doorstep and more serious cabinet shops per square mile than anywhere else in the county."
+  />
+
+  <!-- ── Why Lititz is different ──────────────────────────────────────────── -->
+  <section class="section surface-paper">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">The town</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Informed clients are easier, not harder</h2></div>
+          <div class="prose" style="margin-top:1.2rem">
+            <p>
+              Lititz has a live professional audio industry sitting in it, and a
+              steady trade in restoring borough houses to a standard that people
+              travel to see. The practical consequence is that conversations here
+              start further along. Nobody needs to be told why a flat-black
+              rectangle over the fireplace is a compromise, and nobody is surprised
+              by what a genuinely invisible speaker costs to finish properly.
+            </p>
+            <p>
+              What that raises is the expectation on execution. A client who has
+              stood in a well-built room knows what an even reveal looks like, and
+              will find an uneven one immediately. That suits a shop whose entire
+              argument is that one person did all four parts of the job.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Two building types ───────────────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Building stock</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Borough tight, township open</h2></div>
+          <div class="pair" style="margin-top:clamp(1.75rem,3.5vw,2.5rem)">
+            <article class="panel" data-rv="leaf">
+              <span class="panel__index">01</span>
+              <h3 class="h3" style="margin-top:.85rem">In the borough</h3>
+              <p class="soft" style="margin-top:.7rem">
+                Deep, narrow houses with party walls, low ceilings on the upper
+                floors and stairs that will not take a sheet of plywood. Everything
+                gets built in components small enough to go up those stairs and
+                assembled in the room. Hidden doors do well here because the walls
+                are already panelled or plastered flat, and a jib door disappears
+                into that without needing a bookcase to justify itself.
+              </p>
+            </article>
+            <article class="panel" data-rv="leaf" style="--rv-d:120ms">
+              <span class="panel__index">02</span>
+              <h3 class="h3" style="margin-top:.85rem">Out in Warwick Township</h3>
+              <p class="soft" style="margin-top:.7rem">
+                Newer, larger, and built with joist space to spare — which turns the
+                problem from "where can this possibly go" into "which of four
+                options is best." Ceiling lifts become viable, foot-of-bed lifts in
+                primary suites are common, and there is usually a basement to run
+                low-voltage through without opening a finished wall.
+              </p>
+            </article>
+          </div>
+
+          <div class="pair" style="margin-top:clamp(2rem,4vw,3rem)">
+            <PhotoSlot
+              what="Borough interior, flush jib door closed, panelled wall reading as continuous"
+              ratio="3 / 2"
+              path="/images/areas/lititz-borough.jpg"
+            />
+            <PhotoSlot
+              what="Township primary suite, foot-of-bed lift with the screen fully stowed"
+              ratio="3 / 2"
+              path="/images/areas/lititz-township.jpg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────────────────────── -->
+  <section class="section surface-dark">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label label--accent">Questions</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Lititz specifics</h2></div>
+          <div style="margin-top:clamp(1.5rem,3vw,2.25rem)">
+            <Faq items={faqs} id="lititz" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    title="Fifteen minutes up the road"
+    body="The closest of the named service areas, which makes short-notice service calls and post-install adjustment straightforward rather than a scheduling problem."
+    secondary={{ href: '/areas/hershey-pa/', label: 'Hershey' }}
+  />
+</Base>

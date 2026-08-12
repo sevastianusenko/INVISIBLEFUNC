@@ -1,0 +1,395 @@
+---
+import Base from '../layouts/Base.astro';
+import Seam from '../components/Seam.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import BeforeAfter from '../components/BeforeAfter.astro';
+import Cta from '../components/Cta.astro';
+import { services, areas, site } from '../data/site';
+
+const heroLines = ['Nothing on', 'the wall.', 'Everything', 'in the room.'];
+
+const capability = [
+  ['Screen weight', '40–200 lb'],
+  ['Vertical travel', '24–60 in'],
+  ['Travel speed', '0.5–1.6 in/s'],
+  ['Control', 'IR · RS-232 · IP · dry contact'],
+  ['Finish', 'Paint grade · veneer · level 5'],
+];
+
+const steps = [
+  ['01', 'Consult', 'A conversation about the room, the screen and what the client wants to be looking at when nothing is playing. Usually 30 minutes, on site or on a call with the elevation open.'],
+  ['02', 'Measure', 'Field dimensions, not plan dimensions. Ceiling depth, joist direction, stud bays, floor build-up, existing wiring, and how far out of square the opening actually is.'],
+  ['03', 'Specify', 'Mechanism selected against the real numbers, with the second-choice option written down and priced so the decision stays visible.'],
+  ['04', 'Build', 'Cabinet or leaf built in the shop in Ephrata. Mechanism mounted and cycled several hundred times on the bench before it goes anywhere near the house.'],
+  ['05', 'Install', 'Set, shimmed, wired, and adjusted until the reveal is even along its whole length. Drywall patched and finished by the same hands that cut it.'],
+  ['06', 'Handoff', 'Cycle the mechanism with whoever will use it, label the control paths, and leave the manual override, the spare fasteners and the mechanism documentation on site.'],
+];
+---
+
+<Base
+  title="TV lifts & hidden doors, Ephrata PA | Invisible Function"
+  description="Brand-independent TV lifts, projector lifts, hidden doors and invisible speakers in Lancaster County. Millwork, mechanism, wiring and finish from one shop."
+>
+  <!-- ── Hero ─────────────────────────────────────────────────────────────
+       The thesis. The headline does not fade in; it rises out of a slot,
+       the way a screen rises out of a cabinet. -->
+  <section class="hero surface-light">
+    <div class="wrap">
+      <div class="rail">
+        <p class="label rail__label hero__eyebrow">
+          <span>Ephrata, Pennsylvania</span>
+        </p>
+
+        <div>
+          <h1 class="hero__title">
+            {
+              heroLines.map((line, i) => (
+                <span class="hero__line">
+                  <span style={`--d:${80 + i * 115}ms`}>{line}</span>
+                </span>
+              ))
+            }
+          </h1>
+
+          <div class="hero__seam"><Seam reveal={false} /></div>
+
+          <div class="hero__lower">
+            <div>
+              <div class="hero__reveal">
+                <p class="lead" style="--d:640ms">
+                  Motorized TV lifts, projector and screen lifts, hidden bookcase doors,
+                  motorized panels and invisible in-wall speakers. I pick the mechanism to
+                  suit the opening in front of me rather than the brand I happen to sell,
+                  and the millwork, the wiring and the finish work are all mine.
+                </p>
+              </div>
+              <div class="hero__reveal" style="margin-top:1.75rem">
+                <div class="btn-row" style="--d:760ms">
+                  <a class="btn" href="/contact/">
+                    Request a quote
+                    <span class="btn__tick" aria-hidden="true"></span>
+                  </a>
+                  <a class="btn btn--ghost" href="/for-trade/">
+                    For integrators &amp; shops
+                    <span class="btn__tick" aria-hidden="true"></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="hero__reveal">
+              <div style="--d:860ms">
+                <p class="label">What the mechanisms do</p>
+                <dl class="spec" style="margin-top:.9rem">
+                  {
+                    capability.map(([k, v]) => (
+                      <div class="spec__row">
+                        <dt class="spec__k">{k}</dt>
+                        <dd class="spec__v">{v}</dd>
+                      </div>
+                    ))
+                  }
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Two differentiators ─────────────────────────────────────────────── -->
+  <section class="section surface-paper">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Why this shop</p>
+        <div>
+          <div data-rv="lift">
+            <h2 class="h2">Two decisions this business is built on</h2>
+          </div>
+
+          <div class="pair" style="margin-top:clamp(1.75rem,3.5vw,2.75rem)">
+            <article class="panel" data-rv="leaf">
+              <span class="panel__index">01</span>
+              <h3 class="h3" style="margin-top:.9rem">No brand to defend</h3>
+              <p style="margin-top:.8rem">
+                A dealer sells the mechanism they carry, then asks the room to
+                accommodate it. I start from the opening, the screen weight, the
+                ceiling depth and the sight lines, and choose from whatever is
+                genuinely built for that job — Auton, Nexus&nbsp;21,
+                Future&nbsp;Automation, Firgelli, Sonance and others.
+              </p>
+              <p style="margin-top:1rem">
+                Sometimes the right answer is a $900 actuator behind a plywood
+                carcass. Sometimes it is a five-figure German ceiling lift. Either
+                way you get the reasoning in writing, with the runner-up priced
+                beside it.
+              </p>
+            </article>
+
+            <article class="panel" data-rv="leaf" style="--rv-d:120ms">
+              <span class="panel__index">02</span>
+              <h3 class="h3" style="margin-top:.9rem">One shop, four trades</h3>
+              <p style="margin-top:.8rem">
+                A concealed screen normally pulls in a cabinet shop, an AV
+                integrator, an electrician and a drywall finisher, with someone
+                else keeping their dates aligned. When the panel binds or the
+                reveal runs out along its length, each of them can point at the
+                others.
+              </p>
+              <p style="margin-top:1rem">
+                Here the millwork, the mechanism, the low-voltage runs and the
+                finish carpentry are one person's work — which also means one
+                person to call when something needs adjusting in year three.
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Services ─────────────────────────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Mechanisms</p>
+        <div>
+          <div data-rv="lift">
+            <h2 class="h2">Five things worth hiding</h2>
+          </div>
+          <p class="lead soft" style="margin-top:1.1rem;max-width:52ch">
+            Every one of these is a surface that has to close flat, and something
+            behind it that has to move without being heard.
+          </p>
+
+          <div class="grid cards" style="margin-top:clamp(1.75rem,3.5vw,2.75rem)">
+            {
+              services.map((s, i) => (
+                <ServiceCard
+                  href={s.href}
+                  label={s.label}
+                  index={s.index}
+                  blurb={s.blurb}
+                  specs={s.specs}
+                  wide={i === 0}
+                  delay={i * 90}
+                />
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Proof device ─────────────────────────────────────────────────────── -->
+  <section class="section surface-paper">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Stowed / deployed</p>
+        <div>
+          <div data-rv="lift">
+            <h2 class="h2">Every project has exactly two states</h2>
+          </div>
+          <p class="lead soft" style="margin-top:1.1rem;max-width:58ch">
+            A room where nothing reads as equipment, and the same room doing the
+            thing it was built to do. Drag the pull, or use the arrow keys.
+          </p>
+
+          <div style="margin-top:clamp(1.75rem,3.5vw,2.5rem)">
+            <BeforeAfter
+              beforeWhat="Living room, screen fully stowed. Locked-off tripod, eye height, wide enough to read the whole millwork run."
+              afterWhat="Identical frame, identical exposure, screen fully deployed. Same tripod position, same lens."
+              beforePath="/images/proof/stowed.jpg"
+              afterPath="/images/proof/deployed.jpg"
+            />
+          </div>
+
+          <p class="mono soft" style="margin-top:1.25rem;max-width:62ch">
+            These two photographs do not exist yet. This shop is new, and putting
+            somebody else's project here would be the first dishonest thing on the
+            site. The frame is specified, the tripod position is fixed, and the
+            first finished install drops straight in.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── For trade ────────────────────────────────────────────────────────── -->
+  <section class="section surface-dark">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label label--accent">For trade</p>
+        <div>
+          <div data-rv="lift">
+            <h2 class="h2">Subcontract the part nobody wants to warranty</h2>
+          </div>
+          <p class="lead" style="margin-top:1.1rem;max-width:60ch">
+            Integrators, cabinet shops, designers and builders: the lift is usually
+            the one line item on the job that sits between two scopes. I take that
+            line item, and the responsibility that comes with it.
+          </p>
+
+          <div class="pair" style="margin-top:clamp(1.75rem,3.5vw,2.5rem)">
+            <div>
+              <p class="label">What I take on</p>
+              <ul class="ticks" style="margin-top:1rem">
+                <li>Mechanism selection against your spec, with a written second option</li>
+                <li>Shop-built cabinet, leaf or ceiling closure to your finish schedule</li>
+                <li>Install, low-voltage termination, commissioning and cycle testing</li>
+                <li>Drywall patch and finish where the mechanism meets the wall</li>
+              </ul>
+            </div>
+            <div>
+              <p class="label">What stays yours</p>
+              <ul class="ticks" style="margin-top:1rem">
+                <li>The client relationship, the contract and the invoice</li>
+                <li>Control system, sources, racks and network</li>
+                <li>Your finish, your hardware schedule, your reveal dimension</li>
+                <li>Your name on the job — I don't badge the work</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="btn-row" style="margin-top:2.25rem">
+            <a class="btn" href="/for-trade/">
+              Read the trade terms
+              <span class="btn__tick" aria-hidden="true"></span>
+            </a>
+            <a class="btn btn--ghost" href="/contact/">
+              Send a spec to price
+              <span class="btn__tick" aria-hidden="true"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Pricing preview ──────────────────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Ranges</p>
+        <div>
+          <div data-rv="lift">
+            <h2 class="h2">Published numbers, because nobody else publishes any</h2>
+          </div>
+          <p class="lead soft" style="margin-top:1.1rem;max-width:58ch">
+            Three of the common ones. The full page explains what moves a project
+            to the top or the bottom of each range.
+          </p>
+
+          <div class="price" style="margin-top:clamp(1.75rem,3vw,2.5rem)">
+            <div class="price__row">
+              <h3 class="h3">Install only, as a subcontract</h3>
+              <p class="price__body">
+                You supply the mechanism and the millwork. I set it, wire it,
+                commission it and finish where it meets the wall.
+              </p>
+              <p class="price__fig">$600–2,000<span class="price__unit">per mechanism</span></p>
+            </div>
+            <div class="price__row">
+              <h3 class="h3">Lift cabinet, built and installed</h3>
+              <p class="price__body">
+                Shop-built cabinet or ceiling closure, mechanism supplied and
+                fitted, wired and finished on site.
+              </p>
+              <p class="price__fig">$6,000–12,000<span class="price__unit">complete</span></p>
+            </div>
+            <div class="price__row">
+              <h3 class="h3">Hidden bookcase door</h3>
+              <p class="price__body">
+                Structural leaf, pivot or concealed hinge hardware, latch,
+                casework and an even reveal on all four sides.
+              </p>
+              <p class="price__fig">from $8,500<span class="price__unit">per opening</span></p>
+            </div>
+          </div>
+
+          <div class="btn-row" style="margin-top:2rem">
+            <a class="btn btn--ghost" href="/pricing/">
+              All ranges, explained
+              <span class="btn__tick" aria-hidden="true"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Process ──────────────────────────────────────────────────────────── -->
+  <section class="section surface-paper">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Sequence</p>
+        <div>
+          <div data-rv="lift">
+            <h2 class="h2">Six steps, in this order, every time</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wrap" style="margin-top:clamp(1.75rem,3.5vw,2.75rem)">
+      <div class="steps">
+        {
+          steps.map(([n, t, b], i) => (
+            <article class="step" data-rv="leaf" style={`--rv-d:${i * 70}ms`}>
+              <span class="step__n">{n}</span>
+              <h3 class="h3 step__t">{t}</h3>
+              <p class="step__b">{b}</p>
+            </article>
+          ))
+        }
+      </div>
+      <div class="btn-row" style="margin-top:2rem">
+        <a class="btn btn--ghost" href="/how-it-works/">
+          The process in detail
+          <span class="btn__tick" aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Service area ─────────────────────────────────────────────────────── -->
+  <section class="section section--tight surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Where I work</p>
+        <div>
+          <div data-rv="lift">
+            <h2 class="h2">Lancaster County outward</h2>
+          </div>
+          <p style="margin-top:1.1rem;max-width:62ch">
+            The shop is in {site.city}. Lancaster, Lititz, Hershey, York, Harrisburg
+            and Reading are inside a comfortable day's round trip, which is what
+            matters for a trade that involves a second visit for adjustment.
+            West Chester and the Philadelphia suburbs are worth the drive for
+            larger scopes — a full millwork package rather than a single lift.
+          </p>
+          <div class="chips" style="margin-top:1.6rem">
+            {areas.map((a) => <a class="chip" href={a.href}>{a.label}, PA</a>)}
+            <span class="chip">York</span>
+            <span class="chip">Harrisburg</span>
+            <span class="chip">Reading</span>
+            <span class="chip">Philadelphia suburbs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    title="Send me a room, an elevation or a screen model"
+    body="Trade enquiries get a written mechanism recommendation and a price range within two business days. Homeowners, same — no showroom visit required to get a number."
+  />
+</Base>

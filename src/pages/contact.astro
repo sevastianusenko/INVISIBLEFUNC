@@ -1,0 +1,253 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Seam from '../components/Seam.astro';
+import { site, services, areaServed } from '../data/site';
+---
+
+<Base
+  title="Request a quote or send a spec | Invisible Function"
+  description="Send a screen model, an elevation or a photo of a wall and get a written mechanism recommendation and a price range within two business days."
+>
+  <PageHero
+    eyebrow="Contact"
+    lines={['Send a room,', 'a spec, or a', 'photo of a wall']}
+    lead="Two business days for a written mechanism recommendation and a range. If the answer is that the opening will not take what is being asked of it, that comes back just as quickly."
+  />
+
+  <section class="section surface-paper">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Enquiry</p>
+
+        <div class="pair" style="align-items:start;gap:clamp(2rem,4vw,3.5rem)">
+          <!-- ── Form ─────────────────────────────────────────────────────── -->
+          <div>
+            <form class="form-grid" id="enquiry" novalidate>
+              <div class="field">
+                <label for="f-name">Name</label>
+                <input id="f-name" name="name" type="text" autocomplete="name" required />
+              </div>
+
+              <div class="field">
+                <label for="f-company">Company <span class="soft">(optional)</span></label>
+                <input id="f-company" name="company" type="text" autocomplete="organization" />
+              </div>
+
+              <div class="field">
+                <label for="f-email">Email</label>
+                <input id="f-email" name="email" type="email" autocomplete="email" required />
+              </div>
+
+              <div class="field">
+                <label for="f-phone">Phone <span class="soft">(optional)</span></label>
+                <input id="f-phone" name="phone" type="tel" autocomplete="tel" />
+              </div>
+
+              <div class="field">
+                <label for="f-role">You are</label>
+                <select id="f-role" name="role" required>
+                  <option value="">Choose one</option>
+                  <option>AV integrator</option>
+                  <option>Cabinet or kitchen shop</option>
+                  <option>Interior designer</option>
+                  <option>Builder or general contractor</option>
+                  <option>Homeowner</option>
+                  <option>Something else</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="f-service">What you need</label>
+                <select id="f-service" name="service" required>
+                  <option value="">Choose one</option>
+                  {services.map((s) => <option>{s.label}</option>)}
+                  <option>Service or repair on an existing mechanism</option>
+                  <option>Not sure yet</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="f-town">Town</label>
+                <input id="f-town" name="town" type="text" autocomplete="address-level2" required />
+              </div>
+
+              <div class="field">
+                <label for="f-when">Timing</label>
+                <select id="f-when" name="when">
+                  <option value="">Choose one</option>
+                  <option>Framing is still open</option>
+                  <option>Within 3 months</option>
+                  <option>3 to 6 months</option>
+                  <option>Later, or planning only</option>
+                </select>
+              </div>
+
+              <div class="field field--full">
+                <label for="f-detail">The project</label>
+                <textarea id="f-detail" name="detail" required minlength="20"></textarea>
+                <p class="field__hint" id="detail-hint">
+                  Screen model or weight, rough opening size, ceiling height, finish,
+                  and any date you are working to. Three lines is enough.
+                </p>
+              </div>
+
+              <!-- Bot trap. Real people never see it, real people never fill it. -->
+              <div class="field" hidden aria-hidden="true">
+                <label for="f-fax">Fax</label>
+                <input id="f-fax" name="fax" type="text" tabindex="-1" autocomplete="off" />
+              </div>
+
+              <div class="field--full">
+                <button class="btn" type="submit">
+                  Send enquiry
+                  <span class="btn__tick" aria-hidden="true"></span>
+                </button>
+                <p
+                  class="field__hint"
+                  id="form-status"
+                  role="status"
+                  aria-live="polite"
+                  style="margin-top:1rem"
+                ></p>
+              </div>
+            </form>
+          </div>
+
+          <!-- ── Direct + context ─────────────────────────────────────────── -->
+          <aside class="stack" style="--gap:2.25rem">
+            <div>
+              <p class="label">Direct</p>
+              <p style="margin-top:.85rem">
+                <a class="link" href={`mailto:${site.email}`}>{site.email}</a><br />
+                <a class="link" href={`tel:${site.phoneHref}`}>{site.phone}</a>
+              </p>
+              <p class="mono soft" style="margin-top:.9rem">{site.hours}</p>
+            </div>
+
+            <div>
+              <p class="label">What to send</p>
+              <ul class="ticks" style="margin-top:1rem">
+                <li>A phone photo of the wall, ceiling or cabinet</li>
+                <li>The screen model, or its weight and diagonal</li>
+                <li>Ceiling height and floor level</li>
+                <li>An elevation or a plan, if one exists</li>
+                <li>The date framing closes, if it has not yet</li>
+              </ul>
+            </div>
+
+            <div>
+              <p class="label">Response</p>
+              <dl class="spec" style="margin-top:.9rem">
+                <div class="spec__row"><dt class="spec__k">Trade enquiry</dt><dd class="spec__v">2 business days</dd></div>
+                <div class="spec__row"><dt class="spec__k">Homeowner enquiry</dt><dd class="spec__v">2 business days</dd></div>
+                <div class="spec__row"><dt class="spec__k">Existing client, service</dt><dd class="spec__v">Same day</dd></div>
+              </dl>
+            </div>
+
+            <div>
+              <p class="label">Service area</p>
+              <p class="soft" style="margin-top:.85rem;font-size:.99rem;line-height:1.55">
+                {areaServed.join(' · ')}
+              </p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // ==========================================================================
+  // TODO: connect form handler
+  //
+  // Nothing is transmitted anywhere yet. Point `deliver()` at whichever
+  // endpoint gets chosen — a serverless function, a form service, or an SMTP
+  // relay — and replace the status message below with the real result.
+  // Keep the honeypot check and the client-side validation regardless; they
+  // are cheap and they work.
+  // ==========================================================================
+
+  const form = document.querySelector<HTMLFormElement>('#enquiry');
+  const status = document.querySelector<HTMLElement>('#form-status');
+
+  if (form && status) {
+    const fields = Array.from(
+      form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
+        'input, textarea, select',
+      ),
+    );
+
+    const message = (el: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement) => {
+      const v = el.validity;
+      if (v.valueMissing) return el.tagName === 'SELECT' ? 'Pick one of the options.' : 'This one is needed.';
+      if (v.typeMismatch && el.type === 'email') return 'That address is missing something — check for a typo.';
+      if (v.tooShort) return `A little more detail, please — at least ${(el as HTMLTextAreaElement).minLength} characters.`;
+      return el.validationMessage;
+    };
+
+    const showError = (el: Element, text: string) => {
+      const wrap = el.closest('.field');
+      if (!wrap) return;
+      let note = wrap.querySelector<HTMLElement>('.field__error');
+      if (!note) {
+        note = document.createElement('p');
+        note.className = 'field__hint field__error';
+        note.style.color = '#8c3a26';
+        note.setAttribute('role', 'alert');
+        wrap.append(note);
+      }
+      note.textContent = text;
+      el.setAttribute('aria-invalid', 'true');
+    };
+
+    const clearError = (el: Element) => {
+      el.removeAttribute('aria-invalid');
+      el.closest('.field')?.querySelector('.field__error')?.remove();
+    };
+
+    fields.forEach((el) => {
+      el.addEventListener('blur', () => {
+        if (!el.required && !el.value) return;
+        el.checkValidity() ? clearError(el) : showError(el, message(el));
+      });
+      el.addEventListener('input', () => { if (el.checkValidity()) clearError(el); });
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      status.style.color = '';
+      status.textContent = '';
+
+      // Honeypot: a filled fax field is a bot. Fail quietly.
+      if ((form.elements.namedItem('fax') as HTMLInputElement)?.value) return;
+
+      let firstBad: HTMLElement | null = null;
+      for (const el of fields) {
+        if (el.name === 'fax') continue;
+        if (el.checkValidity()) {
+          clearError(el);
+        } else {
+          showError(el, message(el));
+          firstBad ??= el;
+        }
+      }
+
+      if (firstBad) {
+        firstBad.focus();
+        status.style.color = '#8c3a26';
+        status.textContent = 'Something above needs attention before this can send.';
+        return;
+      }
+
+      // TODO: connect form handler — replace this stub with the real POST.
+      // const data = Object.fromEntries(new FormData(form));
+      // await fetch('/api/enquiry', { method: 'POST', body: JSON.stringify(data) });
+      status.textContent =
+        'Form handler not connected yet. Until it is, please email ' +
+        'spec@invisiblefunction.com directly — everything you typed can be pasted straight in.';
+    });
+  }
+</script>

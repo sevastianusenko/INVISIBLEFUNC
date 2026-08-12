@@ -1,0 +1,160 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Seam from '../../components/Seam.astro';
+import PhotoSlot from '../../components/PhotoSlot.astro';
+import Faq from '../../components/Faq.astro';
+import Cta from '../../components/Cta.astro';
+import { serviceSchema, faqSchema } from '../../lib/schema';
+
+const path = '/services/motorized-panels/';
+const description =
+  'Motorized cabinet fronts, sliding art panels, rising counter sections and powered rack access, built for openings no catalog mechanism actually fits.';
+
+const uses = [
+  ['Cabinet fronts that retract', 'A door that slides up into the case or back over itself instead of swinging into the room. Useful where a swinging door would block a walkway, and in kitchens where an appliance garage should not be a bi-fold.'],
+  ['Sliding art panels', 'Artwork or a decorative panel that travels sideways on cue to uncover a screen, a window, or a niche. Belt driven, on a track carried by the wall structure rather than the panel.'],
+  ['Rising counter sections', 'A section of countertop or desk that lifts to expose equipment, a sink, or a workstation. Short travel, high precision, and the least forgiving of the four because the top has to land flat.'],
+  ['Powered rack access', 'A cabinet face or a plinth that moves to give a technician access to a rack that was otherwise built into a wall. Boring, and the thing an integrator will thank you for in four years.'],
+];
+
+const build = [
+  ['Drive', 'Linear actuator, belt-and-carriage, or lead screw, chosen against travel, load and duty cycle. Nothing gets specified at its rated maximum.'],
+  ['Guidance', 'The panel runs on its guides, not on its drive. Drives push; they do not steer. Cheap builds confuse the two and bind within a year.'],
+  ['Sensing', 'Current-sensing obstruction detection on anything that moves at hand height or crosses a walkway, with a hard end-stop as a backstop.'],
+  ['Override', 'A documented way to move the panel with no power, reachable without cutting anything open. Every build, no exceptions.'],
+];
+
+const faqs = [
+  {
+    q: 'Is this off-the-shelf, or custom?',
+    a: 'Both, and the answer is usually mixed. Where a manufacturer already builds the mechanism the opening needs, I buy it. Where the opening is unusual — and motorized panels usually are — the drive is commercial hardware and the carriage, guidance and panel are shop-built around it.',
+  },
+  {
+    q: 'How much noise does a panel make?',
+    a: 'Less than the room usually expects, if the guidance is right. Most of the noise people attribute to a motor is actually the panel loading its guides unevenly or a cabinet acting as a soundboard. That is a construction problem and it gets solved on the bench, not with a quieter motor.',
+  },
+  {
+    q: 'Can it be triggered from a control system?',
+    a: 'Yes — contact closure, RS-232 or IP depending on the drive. If there is an integrator on the job, I will use whatever they are standardized on and hand over the control documentation rather than inventing a parallel system.',
+  },
+  {
+    q: 'What about safety around children?',
+    a: 'Obstruction sensing, travel speeds well under two inches per second, and pinch points designed out of the geometry rather than covered with a warning label. If a panel cannot be made safe at a given location, I will say so and propose a different one.',
+  },
+];
+---
+
+<Base
+  title="Motorized panels & cabinet fronts | Invisible Function"
+  description={description}
+  schema={[
+    serviceSchema({
+      name: 'Motorized panel and moving cabinet front fabrication',
+      description,
+      path,
+      serviceType: 'Motorized architectural panel design, fabrication and installation',
+    }),
+    faqSchema(faqs),
+  ]}
+>
+  <PageHero
+    eyebrow="M-04 · Motorized panels"
+    lines={['Surfaces that', 'move out of', 'the way']}
+    lead="Cabinet fronts, sliding art panels, rising counter sections and powered rack access. This is the category where the catalog usually runs out, which is why the carriage tends to get built in the shop."
+  >
+    <div class="hero__reveal" style="margin-top:1.9rem">
+      <div class="btn-row" style="--d:820ms">
+        <a class="btn" href="/contact/">
+          Describe an opening
+          <span class="btn__tick" aria-hidden="true"></span>
+        </a>
+        <a class="btn btn--ghost" href="/for-trade/">
+          Trade scope
+          <span class="btn__tick" aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+  </PageHero>
+
+  <!-- ── Uses ─────────────────────────────────────────────────────────────── -->
+  <section class="section surface-paper">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Applications</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">When a hinge is the wrong idea</h2></div>
+          <div class="grid" style="--cols-lg:2;margin-top:clamp(1.75rem,3.5vw,2.5rem)">
+            {
+              uses.map(([t, b], i) => (
+                <article class="panel" data-rv="leaf" style={`--rv-d:${i * 80}ms`}>
+                  <span class="panel__index">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 class="h3" style="margin-top:.85rem">{t}</h3>
+                  <p class="soft" style="margin-top:.7rem">{b}</p>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How it's built ───────────────────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Construction</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Four rules the shop does not bend</h2></div>
+          <dl class="spec" style="margin-top:clamp(1.5rem,3vw,2.25rem);max-width:66ch">
+            {
+              build.map(([k, v]) => (
+                <div class="spec__row" style="grid-template-columns:minmax(0,1fr);gap:.4rem">
+                  <dt class="spec__k">{k}</dt>
+                  <dd class="price__body" style="margin:0">{v}</dd>
+                </div>
+              ))
+            }
+          </dl>
+
+          <div class="pair" style="margin-top:clamp(2rem,4vw,3rem)">
+            <PhotoSlot
+              what="Carriage and belt drive on the bench, panel removed, guidance visible"
+              ratio="3 / 2"
+              path="/images/panels/carriage-bench.jpg"
+            />
+            <PhotoSlot
+              what="Installed panel mid-travel, showing the closed face and the cavity together"
+              ratio="3 / 2"
+              path="/images/panels/mid-travel.jpg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────────────────────── -->
+  <section class="section surface-dark">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label label--accent">Questions</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Reasonable things to ask</h2></div>
+          <div style="margin-top:clamp(1.5rem,3vw,2.25rem)">
+            <Faq items={faqs} id="panels" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    title="If you can sketch it, it can probably be priced"
+    body="A dimensioned sketch, a photo, or a paragraph describing what should move and where it should go. Any of the three is enough to start."
+  />
+</Base>

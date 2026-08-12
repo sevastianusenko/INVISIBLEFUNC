@@ -1,0 +1,199 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Seam from '../../components/Seam.astro';
+import PhotoSlot from '../../components/PhotoSlot.astro';
+import BeforeAfter from '../../components/BeforeAfter.astro';
+import Faq from '../../components/Faq.astro';
+import Cta from '../../components/Cta.astro';
+import { serviceSchema, faqSchema } from '../../lib/schema';
+
+const path = '/services/hidden-doors/';
+const description =
+  'Hidden bookcase doors and flush jib doors built and installed in Lancaster County. Structural leaf, concealed hardware, and a reveal that stays even.';
+
+const kinds = [
+  {
+    t: 'Bookcase door',
+    b: 'A loaded bookcase on a pivot. The leaf is the heaviest thing in the room and it has to swing without sagging, so the case is built as a torsion box and the hardware is sized to the loaded weight, not the empty one.',
+    spec: 'Leaf 250–500 lb loaded',
+  },
+  {
+    t: 'Flush jib door',
+    b: 'A door with no casing, no visible hinge and a face that continues the wall — paint, panelling or wallpaper straight across. It only works if the reveal is dead consistent, which is a millwork problem before it is a hardware problem.',
+    spec: 'Reveal 1/8 in, four sides',
+  },
+  {
+    t: 'Panelled wall section',
+    b: 'One bay of a panelled wall that opens. The joint has to land on a stile the eye already expects, so the panel layout gets designed around the door rather than the door being cut into the layout afterwards.',
+    spec: 'Joint hidden on a stile line',
+  },
+  {
+    t: 'Cabinetry run',
+    b: 'A section of built-in casework that swings clear to a pantry, a stair or mechanical space. Common in kitchens and mudrooms, and the one most likely to need a soft-close and a hold-open.',
+    spec: 'Soft close · hold open',
+  },
+];
+
+const faqs = [
+  {
+    q: 'Will the door stay flush over time?',
+    a: 'It will move a little, because wood and houses both move. That is why the hardware I use is adjustable in three axes after installation and why a return visit is scheduled into every hidden door job rather than treated as a callback. A door that cannot be adjusted was built wrong.',
+  },
+  {
+    q: 'Can it be locked, or held shut?',
+    a: 'Yes. Options run from a simple touch latch, through magnetic and mechanical hidden releases, to a keyed or electric strike where the space behind genuinely needs securing. Anything electric gets a mechanical way out from the inside, without exception.',
+  },
+  {
+    q: 'Does it need to be a full bookcase?',
+    a: 'No, and often it should not be. A single flush panel in a panelled wall is quieter, cheaper and harder to find than a bookcase, because a bookcase in the middle of a plain wall announces itself. The right answer depends on what the wall is already doing.',
+  },
+  {
+    q: 'Is this something a general contractor can rough in for you?',
+    a: 'Very helpfully, yes. If the opening is framed square, plumb and to the dimension I give you, the rest goes quickly. If it is framed to a standard door opening and then handed over, expect to hear about it — the framing dimension for a hidden door is not the same number.',
+  },
+  {
+    q: 'What is behind these, usually?',
+    a: 'Pantries, home offices, gun rooms, safe rooms, mechanical space, stairs to a basement, and once in a while nothing at all — a client who wanted the room to have a door that no guest could find. All of those are fine. I do not need to know which it is to build it.',
+  },
+];
+---
+
+<Base
+  title="Hidden bookcase & jib doors | Invisible Function"
+  description={description}
+  schema={[
+    serviceSchema({
+      name: 'Hidden bookcase door design and installation',
+      description,
+      path,
+      serviceType: 'Hidden door and concealed passage millwork',
+    }),
+    faqSchema(faqs),
+  ]}
+>
+  <PageHero
+    eyebrow="M-03 · Hidden doors"
+    lines={['A wall that', 'happens to', 'be a door']}
+    lead="Bookcase doors, flush jib doors and panelled sections that open. The hardware is the easy half. The reveal, the leaf construction and the way the joint lands on a line your eye already expects — that is the work."
+  >
+    <div class="hero__reveal" style="margin-top:1.9rem">
+      <div class="btn-row" style="--d:820ms">
+        <a class="btn" href="/contact/">
+          Price an opening
+          <span class="btn__tick" aria-hidden="true"></span>
+        </a>
+        <a class="btn btn--ghost" href="/pricing/">
+          From $8,500
+          <span class="btn__tick" aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+  </PageHero>
+
+  <!-- ── Proof device ─────────────────────────────────────────────────────── -->
+  <section class="section section--tight surface-paper">
+    <div class="wrap">
+      <BeforeAfter
+        beforeWhat="Panelled wall, door closed, straight-on frame at eye height with even light across the whole run"
+        afterWhat="Identical frame, leaf swung to about 40 degrees, space behind visible"
+        beforePath="/images/hidden-doors/closed.jpg"
+        afterPath="/images/hidden-doors/open.jpg"
+        beforeTag="Closed"
+        afterTag="Open"
+        label="Compare the closed and open states"
+      />
+      <p class="mono soft" style="margin-top:1.15rem;max-width:60ch">
+        Photography pending. This shop has not finished its first hidden door yet,
+        and the two frames above will be from that job rather than from anyone else's.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Kinds ────────────────────────────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Types</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Four ways to lose a doorway</h2></div>
+          <div class="grid" style="--cols-lg:2;margin-top:clamp(1.75rem,3.5vw,2.5rem)">
+            {
+              kinds.map((k, i) => (
+                <article class="panel" data-rv="leaf" style={`--rv-d:${i * 80}ms`}>
+                  <div class="card__head">
+                    <span class="panel__index">{String(i + 1).padStart(2, '0')}</span>
+                    <span class="mono soft">{k.spec}</span>
+                  </div>
+                  <h3 class="h3" style="margin-top:.85rem">{k.t}</h3>
+                  <p class="soft" style="margin-top:.7rem">{k.b}</p>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── The reveal ───────────────────────────────────────────────────────── -->
+  <section class="section surface-dark">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label label--accent">The reveal</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">One eighth of an inch, everywhere</h2></div>
+          <div class="prose" style="margin-top:1.2rem">
+            <p>
+              In millwork, a reveal is the deliberate gap between two surfaces. It is
+              the only part of a hidden door anyone can actually see, and it is what
+              separates a door that disappears from one that looks like a mistake.
+            </p>
+            <p>
+              An even reveal on a 400-pound leaf is not a hardware feature you buy. It
+              comes from a leaf built stiff enough not to sag, an opening prepared
+              square, hardware sized above the loaded weight, and a scheduled
+              adjustment visit after the first heating season — when the house has
+              moved and the door needs a quarter turn on two bolts.
+            </p>
+          </div>
+          <div class="pair" style="margin-top:clamp(2rem,4vw,3rem)">
+            <PhotoSlot
+              what="Macro of the reveal at the top corner of a closed leaf, raking light along the joint"
+              ratio="1 / 1"
+              path="/images/hidden-doors/reveal-macro.jpg"
+            />
+            <PhotoSlot
+              what="Pivot hardware exposed during install, before the case goes on"
+              ratio="1 / 1"
+              path="/images/hidden-doors/pivot-hardware.jpg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Questions</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">What clients ask first</h2></div>
+          <div style="margin-top:clamp(1.5rem,3vw,2.25rem)">
+            <Faq items={faqs} id="doors" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    title="Send a photo of the wall and the rough opening size"
+    body="From that I can tell you whether it wants a bookcase, a flush panel or a panelled bay, and roughly what each would run."
+  />
+</Base>

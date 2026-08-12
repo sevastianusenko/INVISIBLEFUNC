@@ -1,0 +1,266 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Seam from '../components/Seam.astro';
+import Faq from '../components/Faq.astro';
+import Cta from '../components/Cta.astro';
+import { faqSchema } from '../lib/schema';
+
+const partners = [
+  {
+    n: '01',
+    t: 'AV integrators',
+    b: 'You have the client, the control system and the rack. What you do not want is to own a hole in someone’s ceiling, a cabinet that racks under load, or a drywall repair your installer is not equipped to make good.',
+    take: 'Mechanism, millwork, install, low-voltage termination at the device, and the finish work where the mechanism meets the building.',
+    keep: 'Control system, sources, network, calibration, the client contract and the recurring relationship.',
+  },
+  {
+    n: '02',
+    t: 'Cabinet and kitchen shops',
+    b: 'You build beautiful casework and then a client asks for a screen that comes out of it. The mechanism is a small part of the price and a large part of the risk, and it arrives with a wiring requirement you did not quote.',
+    take: 'Mechanism selection and supply, carcass modifications for the load path, install, wiring and commissioning — on your casework or on mine.',
+    keep: 'The casework, the finish, the client, and full credit for the job.',
+  },
+  {
+    n: '03',
+    t: 'Interior designers',
+    b: 'The television is the thing the client says they want hidden and the thing nobody in the trade wants to own. It usually surfaces late, after the elevation is approved and the joinery is ordered.',
+    take: 'A written option set with dimensions and price, early enough to change the elevation instead of fighting it. Then the build and the install.',
+    keep: 'Specification authority, finish selection, and a single line item to place in your schedule.',
+  },
+  {
+    n: '04',
+    t: 'Luxury home builders',
+    b: 'A concealed screen or a hidden door is four subs and three inspections’ worth of coordination for a line item worth a fraction of a percent of the contract. It is pure schedule risk.',
+    take: 'The whole line item, from rough-in requirements at framing through to final finish, with a single point of contact and a single warranty.',
+    keep: 'The schedule, the client, and one fewer sub to chase at punch list.',
+  },
+];
+
+const timeline = [
+  ['Quote', '2 business days', 'From a spec, an elevation or a photo. Written mechanism recommendation, a second option, and a price.'],
+  ['Rough-in advice', 'Same week', 'Framing dimensions, blocking and conduit requirements, issued in time to reach the framer.'],
+  ['Shop time', '2–5 weeks', 'From approved drawing to a mechanism cycled on the bench and ready to go in. Longer for veneer or a specialty finish.'],
+  ['Install', '1–3 days on site', 'Set, wire, commission, finish. Scheduled around your trades rather than through them.'],
+  ['Adjustment', 'Booked at handover', 'A return visit after the first heating season. It is in the price, not a callback.'],
+];
+
+const faqs = [
+  {
+    q: 'Do you carry your own insurance?',
+    a: 'Yes — general liability and workers’ compensation, with certificates issued to the GC or the integrator before the first site visit. Additional insured endorsements are routine; send me the requirement with the PO.',
+  },
+  {
+    q: 'Will you white-label the work?',
+    a: 'By default. There is no badge, no sticker inside the cabinet and no business card left on site. If you would rather introduce me to the client directly, that also works — your call, made once, at the start.',
+  },
+  {
+    q: 'What do you need from me to quote?',
+    a: 'For a lift: the screen model or its weight and diagonal, an elevation or a photo of the wall, and the ceiling height. For a hidden door: the rough opening and what the wall finish will be. For a ceiling: joist direction and depth. Anything beyond that is a bonus, not a blocker.',
+  },
+  {
+    q: 'Can you work to my finish schedule?',
+    a: 'Yes. Paint grade, stain grade, veneer to a sample, or unfinished for your finisher to spray — whichever fits your process. Tell me at quote stage, because it changes both the shop time and the price.',
+  },
+  {
+    q: 'What are your payment terms for trade?',
+    a: 'Fifty percent at order to cover the mechanism and materials, balance on completion, net 15 on the balance for established accounts. Install-only subcontracts are invoiced on completion, net 30.',
+  },
+  {
+    q: 'Do you take work outside Lancaster County?',
+    a: 'Regularly. York, Harrisburg, Reading and the Main Line are normal. Further out, it depends on scope — a single install does not travel well, but a full millwork package does.',
+  },
+];
+---
+
+<Base
+  title="For integrators, shops & builders | Invisible Function"
+  description="Subcontract concealment work in southeastern PA: mechanism, millwork, install, wiring and finish. Defined lead times, white-labelled by default."
+  schema={[faqSchema(faqs)]}
+>
+  <PageHero
+    eyebrow="Trade"
+    lines={['The line item', 'that sits between', 'two scopes']}
+    lead="On most jobs the lift belongs to nobody. The integrator does not build cabinets, the cabinet shop does not pull wire, and the drywall finisher was gone before the mechanism arrived. I take that line item and the responsibility attached to it."
+  >
+    <div class="hero__reveal" style="margin-top:1.9rem">
+      <div class="btn-row" style="--d:860ms">
+        <a class="btn" href="/contact/">
+          Send a spec to price
+          <span class="btn__tick" aria-hidden="true"></span>
+        </a>
+        <a class="btn btn--ghost" href="/pricing/">
+          Subcontract rates
+          <span class="btn__tick" aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+  </PageHero>
+
+  <!-- ── Four partner types ───────────────────────────────────────────────── -->
+  <section class="section surface-paper">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Who this is for</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Four kinds of partner, four different problems</h2></div>
+
+          <div class="stack" style="--gap:1rem;margin-top:clamp(1.75rem,3.5vw,2.5rem)">
+            {
+              partners.map((p, i) => (
+                <article class="panel" data-rv="leaf" style={`--rv-d:${i * 70}ms`}>
+                  <span class="panel__index">{p.n}</span>
+                  <h3 class="h3" style="margin-top:.85rem">{p.t}</h3>
+                  <p class="soft" style="margin-top:.75rem;max-width:66ch">{p.b}</p>
+                  <div class="pair" style="margin-top:1.5rem">
+                    <div>
+                      <p class="label">I take</p>
+                      <p style="margin-top:.5rem;font-size:.99rem;line-height:1.55">{p.take}</p>
+                    </div>
+                    <div>
+                      <p class="label">You keep</p>
+                      <p style="margin-top:.5rem;font-size:.99rem;line-height:1.55">{p.keep}</p>
+                    </div>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Lead times ───────────────────────────────────────────────────────── -->
+  <section class="section surface-dark">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label label--accent">Lead times</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Numbers you can put in a schedule</h2></div>
+          <p class="lead soft" style="margin-top:1.1rem;max-width:56ch">
+            One person is a constraint and I would rather you plan around it than
+            discover it. If a date will not work I will tell you at quote stage.
+          </p>
+
+          <div class="price" style="margin-top:clamp(1.75rem,3vw,2.5rem)">
+            {
+              timeline.map(([k, t, b]) => (
+                <div class="price__row">
+                  <h3 class="h3">{k}</h3>
+                  <p class="price__body">{b}</p>
+                  <p class="price__fig">{t}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Handoff ──────────────────────────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Handoff</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">What lands on your desk at the end</h2></div>
+          <p class="lead soft" style="margin-top:1.1rem;max-width:58ch">
+            A job is not finished when the panel moves. It is finished when the next
+            person to touch it knows what they are looking at.
+          </p>
+
+          <div class="pair" style="margin-top:clamp(1.75rem,3.5vw,2.5rem)">
+            <div>
+              <p class="label">Documentation</p>
+              <ul class="ticks" style="margin-top:1rem">
+                <li>Mechanism make, model, serial and supplier, in writing</li>
+                <li>Wiring schedule with the control path and trigger type</li>
+                <li>Manual override location and procedure</li>
+                <li>Photographs of the cavity before it was closed up</li>
+                <li>Spare fasteners and any specialty hardware left on site</li>
+              </ul>
+            </div>
+            <div>
+              <p class="label">Commissioning</p>
+              <ul class="ticks" style="margin-top:1rem">
+                <li>Mechanism cycled a minimum of 50 times on site after install</li>
+                <li>Reveal checked along its full length, not at the corners</li>
+                <li>Control path tested from your system, not just from the handset</li>
+                <li>Walkthrough with whoever will actually be using it</li>
+                <li>Adjustment visit booked before I leave</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How to ask ───────────────────────────────────────────────────────── -->
+  <section class="section surface-paper">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Requesting a price</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Three lines is enough to start</h2></div>
+          <div class="prose" style="margin-top:1.2rem">
+            <p>
+              You do not need a finished drawing set. Send whatever exists — a phone
+              photo of a wall with a tape in it will do — and you will get a written
+              recommendation and a range back within two business days.
+            </p>
+            <p>
+              If the answer is that the opening cannot take what the client wants, you
+              will get that in two days too. That is usually the more valuable email.
+            </p>
+          </div>
+
+          <div class="panel" data-rv="leaf" style="margin-top:2rem;max-width:60ch">
+            <p class="label">A quote request that works</p>
+            <p class="mono" style="margin-top:1rem;line-height:1.75;color:var(--fg-soft)">
+              Sony 77&nbsp;A95L, foot of bed, into a bench.<br />
+              Bench height 22&nbsp;in, ceiling 9&nbsp;ft, second floor.<br />
+              Paint grade, our painter sprays on site.<br />
+              Framing closes 14&nbsp;March.
+            </p>
+          </div>
+
+          <div class="btn-row" style="margin-top:2rem">
+            <a class="btn" href="/contact/">
+              Send a spec
+              <span class="btn__tick" aria-hidden="true"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Trade questions</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">The ones that decide whether you call</h2></div>
+          <div style="margin-top:clamp(1.5rem,3vw,2.25rem)">
+            <Faq items={faqs} id="trade" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    title="Put me on one job and see how it goes"
+    body="The first job with a new sub is a test, and it should be. Give me the awkward one — the ceiling nobody wants to open, or the lift that has already been returned once."
+    secondary={{ href: '/how-it-works/', label: 'How a job runs' }}
+  />
+</Base>

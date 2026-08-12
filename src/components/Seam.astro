@@ -1,0 +1,21 @@
+---
+interface Props {
+  /** Animate the run into place when it scrolls into view. */
+  reveal?: boolean;
+  /** Stagger, in ms. */
+  delay?: number;
+  /** Park the brass tick at the left end instead of the leading edge. */
+  start?: boolean;
+  class?: string;
+}
+const { reveal = true, delay = 0, start = false, class: cls = '' } = Astro.props;
+---
+
+<div
+  class:list={['seam', start && 'seam--start', cls]}
+  data-rv={reveal ? 'seam' : undefined}
+  style={delay ? `--rv-d:${delay}ms` : undefined}
+  aria-hidden="true"
+>
+  <div class="seam__run"><span class="seam__tick"></span></div>
+</div>

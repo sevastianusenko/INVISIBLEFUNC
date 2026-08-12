@@ -1,0 +1,155 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Seam from '../../components/Seam.astro';
+import PhotoSlot from '../../components/PhotoSlot.astro';
+import Faq from '../../components/Faq.astro';
+import Cta from '../../components/Cta.astro';
+import { serviceSchema, faqSchema } from '../../lib/schema';
+
+const path = '/services/projector-and-screen-lifts/';
+const description =
+  'Ceiling projector lifts and in-ceiling screen cassettes in southeastern PA. Framing, closure, triggering and level-5 finish handled as one single scope.';
+
+const stages = [
+  ['Framing', 'The lift and the cassette both need a box in the joist space, square and dead level, with blocking that will not move when the ceiling dries out. This is where most retrofit jobs are won or lost.'],
+  ['Closure', 'A flush panel or trap door that matches the ceiling plane. Painted to the same sheen, with the reveal held consistent all the way round rather than tapering off at one corner.'],
+  ['Trigger', 'The lift should move because the projector woke up, not because someone found the right handset. Twelve-volt trigger, RS-232, IP, or a contact closure from the control system.'],
+  ['Finish', 'Skim, sand and paint the ceiling around the closure so there is no shadow line, no ghosting of the box, and no telltale rectangle in raking light from the window.'],
+];
+
+const faqs = [
+  {
+    q: 'Can a projector lift go into an existing ceiling?',
+    a: 'It depends on joist direction and what is already in the bay. Running parallel to the joists is usually straightforward; running across them means headers, and headers mean a structural conversation before a price. I measure before quoting rather than after.',
+  },
+  {
+    q: 'How much ceiling depth does a screen cassette need?',
+    a: 'From about seven inches for a compact tab-tensioned cassette, and up toward eleven or twelve for larger masking screens. In a finished basement with ductwork in the way, that number decides the whole design, so it gets checked first.',
+  },
+  {
+    q: 'Will the closed ceiling really be invisible?',
+    a: 'From normal viewing distance in normal light, yes — that is the standard I work to and the reason the drywall finishing is in my scope rather than someone else’s. Under raking light at a shallow angle you may find the reveal if you know where to look. Anyone who promises otherwise has not finished a ceiling.',
+  },
+  {
+    q: 'Do you handle the projector itself, or just the lift?',
+    a: 'The lift, the closure, the framing, the trigger and the finish. Projector selection, calibration and the rest of the AV chain stay with the integrator or the owner. If there is no integrator on the job I will say so early rather than pretend the scope is complete.',
+  },
+];
+---
+
+<Base
+  title="Projector & screen lifts | Invisible Function"
+  description={description}
+  schema={[
+    serviceSchema({
+      name: 'Projector and screen lift installation',
+      description,
+      path,
+      serviceType: 'Ceiling projector lift and in-ceiling screen cassette installation',
+    }),
+    faqSchema(faqs),
+  ]}
+>
+  <PageHero
+    eyebrow="M-02 · Projector & screen lifts"
+    lines={['A ceiling that', 'gives nothing', 'away']}
+    lead="Projector lifts and in-ceiling screen cassettes, framed, closed, triggered and finished as one scope — because the thing that ruins a concealed ceiling is never the mechanism, it is the joint between four trades."
+  >
+    <div class="hero__reveal" style="margin-top:1.9rem">
+      <div class="btn-row" style="--d:820ms">
+        <a class="btn" href="/contact/">
+          Price a ceiling
+          <span class="btn__tick" aria-hidden="true"></span>
+        </a>
+        <a class="btn btn--ghost" href="/for-trade/">
+          Subcontract terms
+          <span class="btn__tick" aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+  </PageHero>
+
+  <!-- ── The four parts ───────────────────────────────────────────────────── -->
+  <section class="section surface-paper">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Scope</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Four parts, one set of hands</h2></div>
+          <p class="lead soft" style="margin-top:1.1rem;max-width:56ch">
+            A ceiling lift is only as good as the plane it closes into. All four of
+            these are mine, which is the whole point.
+          </p>
+          <div class="grid" style="--cols-lg:2;margin-top:clamp(1.75rem,3.5vw,2.5rem)">
+            {
+              stages.map(([t, b], i) => (
+                <article class="panel" data-rv="leaf" style={`--rv-d:${i * 80}ms`}>
+                  <span class="panel__index">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 class="h3" style="margin-top:.85rem">{t}</h3>
+                  <p class="soft" style="margin-top:.7rem">{b}</p>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Specs + slots ────────────────────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Numbers</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">What the ceiling has to give me</h2></div>
+          <dl class="spec" style="margin-top:clamp(1.5rem,3vw,2.25rem);max-width:62ch">
+            <div class="spec__row"><dt class="spec__k">Projector drop</dt><dd class="spec__v">12–48 in</dd></div>
+            <div class="spec__row"><dt class="spec__k">Lift box depth</dt><dd class="spec__v">from 9 in</dd></div>
+            <div class="spec__row"><dt class="spec__k">Screen cassette depth</dt><dd class="spec__v">from 7 in</dd></div>
+            <div class="spec__row"><dt class="spec__k">Screen width</dt><dd class="spec__v">to 180 in</dd></div>
+            <div class="spec__row"><dt class="spec__k">Trigger</dt><dd class="spec__v">12 V · RS-232 · IP · contact</dd></div>
+            <div class="spec__row"><dt class="spec__k">Closure reveal</dt><dd class="spec__v">held at 1/8 in</dd></div>
+          </dl>
+
+          <div class="pair" style="margin-top:clamp(2rem,4vw,3rem)">
+            <PhotoSlot
+              what="Ceiling closed, raking daylight across the plane, closure panel barely findable"
+              ratio="3 / 2"
+              path="/images/projector/ceiling-closed.jpg"
+            />
+            <PhotoSlot
+              what="Same ceiling, projector fully lowered, lens at working height"
+              ratio="3 / 2"
+              path="/images/projector/ceiling-open.jpg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────────────────────── -->
+  <section class="section surface-dark">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label label--accent">Questions</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Before you frame anything</h2></div>
+          <div style="margin-top:clamp(1.5rem,3vw,2.25rem)">
+            <Faq items={faqs} id="proj" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    title="Send the reflected ceiling plan"
+    body="Joist direction, ceiling height and the projector model get you a straight answer about whether the ceiling can take it, before anyone commits to a design."
+  />
+</Base>

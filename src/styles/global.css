@@ -1,0 +1,1293 @@
+/* ==========================================================================
+   INVISIBLE FUNCTION
+   Design language: "the reveal" — in millwork, the deliberate shadow gap
+   between two surfaces. Everything here is surfaces, seams, and things
+   moving out from behind them.
+
+   House rule: the reveal system uses TRANSFORM ONLY. No opacity fades.
+   A mechanism moves; it does not dissolve. (It also keeps text LCP at
+   first paint.)
+   ========================================================================== */
+
+/* --- Fonts ---------------------------------------------------------------- */
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('/fonts/archivo-var.woff2') format('woff2');
+  font-weight: 400 700;
+  font-stretch: 62% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Source Serif';
+  src: url('/fonts/source-serif-var.woff2') format('woff2');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plex Mono';
+  src: url('/fonts/plex-mono-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Plex Mono';
+  src: url('/fonts/plex-mono-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --- Tokens --------------------------------------------------------------- */
+
+:root {
+  /* Palette */
+  --plaster: #d5d1c7;
+  --plaster-deep: #c9c4b8;
+  --paper: #e9e6df;
+  --paper-lift: #f2efe9;
+  --cavity: #221d18;
+  --cavity-lift: #2f2921;
+  --brass: #9e7c3e;
+  --brass-ink: #6b4e22;
+  --brass-lit: #c9a76a;
+  --seam: #b4aea1;
+  --ink-soft: #564e45;
+  --on-cavity: #e5e0d6;
+  --on-cavity-soft: #a79f92;
+  --seam-dark: #4a4139;
+
+  /* Contextual roles. Every component reads these, never the raw palette,
+     so a section can invert by swapping one class. */
+  --bg: var(--plaster);
+  --fg: var(--cavity);
+  --fg-soft: var(--ink-soft);
+  --accent: var(--brass-ink);
+  --deco: var(--brass);
+  --line: var(--seam);
+  --panel-bg: var(--paper);
+  --panel-edge: rgba(34, 29, 24, 0.1);
+
+  /* Type */
+  --ff-display: 'Archivo', ui-sans-serif, system-ui, sans-serif;
+  --ff-body: 'Source Serif', ui-serif, Georgia, serif;
+  --ff-mono: 'Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* Floor is set by the longest unbreakable word in the hero ("Everything")
+     at 118% width inside a 280px column — measured at 320px, not guessed. */
+  --fs-display: clamp(2.15rem, 0.55rem + 6.9vw, 6rem);
+  --fs-h1: clamp(2.1rem, 1.25rem + 3.6vw, 4.1rem);
+  --fs-h2: clamp(1.55rem, 1.15rem + 1.7vw, 2.5rem);
+  --fs-h3: clamp(1.18rem, 1.08rem + 0.42vw, 1.44rem);
+  --fs-body: clamp(1.03rem, 0.99rem + 0.2vw, 1.18rem);
+  --fs-lead: clamp(1.14rem, 1.02rem + 0.55vw, 1.42rem);
+  --fs-small: 0.9rem;
+  --fs-label: 0.715rem;
+
+  /* Space + form */
+  --page-max: 1290px;
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --rail-w: clamp(108px, 12vw, 172px);
+  --r: 3px;
+  --shadow-panel:
+    0 1px 0 rgba(255, 255, 255, 0.45) inset,
+    0 2px 3px rgba(34, 29, 24, 0.05),
+    0 16px 34px -22px rgba(34, 29, 24, 0.4);
+
+  /* Motion — one curve, three durations. Nothing else. */
+  --ease-mech: cubic-bezier(0.65, 0.02, 0.22, 1);
+  --t-1: 420ms;
+  --t-2: 720ms;
+  --t-3: 1100ms;
+}
+
+.surface-dark {
+  --bg: var(--cavity);
+  --fg: var(--on-cavity);
+  --fg-soft: var(--on-cavity-soft);
+  --accent: var(--brass-lit);
+  --deco: var(--brass-lit);
+  --line: var(--seam-dark);
+  --panel-bg: var(--cavity-lift);
+  --panel-edge: rgba(229, 224, 214, 0.1);
+  background: var(--bg);
+  color: var(--fg);
+}
+.surface-light {
+  --bg: var(--plaster);
+  --fg: var(--cavity);
+  --fg-soft: var(--ink-soft);
+  --accent: var(--brass-ink);
+  --deco: var(--brass);
+  --line: var(--seam);
+  --panel-bg: var(--paper);
+  --panel-edge: rgba(34, 29, 24, 0.1);
+  background: var(--bg);
+  color: var(--fg);
+}
+/* Panels always sit proud of the surface they are on, never recessed —
+   a door on a carcass, not a hole in a wall. */
+.surface-paper {
+  --bg: var(--paper);
+  --panel-bg: var(--paper-lift);
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* --- Reset ---------------------------------------------------------------- */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+/* Class-based display rules outrank the UA sheet, which would otherwise
+   leave the form honeypot on screen. */
+[hidden] { display: none !important; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--plaster);
+  color: var(--cavity);
+  font-family: var(--ff-body);
+  font-size: var(--fs-body);
+  line-height: 1.62;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  /* clip, not hidden — `overflow: hidden` on body breaks position: sticky. */
+  overflow-x: clip;
+}
+
+#main { scroll-margin-top: 5rem; }
+
+img,
+svg,
+video { display: block; max-width: 100%; height: auto; }
+
+h1, h2, h3, h4, p, figure, blockquote, ul, ol, dl, dd { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+a { color: inherit; }
+
+button, input, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+::selection {
+  background: var(--brass);
+  color: #fff;
+}
+
+/* --- Type ----------------------------------------------------------------- */
+
+.display,
+.h1,
+.h2 {
+  font-family: var(--ff-display);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.display {
+  font-size: var(--fs-display);
+  font-weight: 640;
+  font-stretch: 118%;
+  line-height: 0.9;
+  letter-spacing: -0.006em;
+}
+.h1 {
+  font-size: var(--fs-h1);
+  font-weight: 620;
+  font-stretch: 114%;
+  line-height: 0.96;
+  letter-spacing: 0;
+}
+.h2 {
+  font-size: var(--fs-h2);
+  font-weight: 600;
+  font-stretch: 108%;
+  line-height: 1.02;
+  letter-spacing: 0.004em;
+}
+.h3 {
+  font-family: var(--ff-display);
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  font-stretch: 100%;
+  line-height: 1.22;
+  letter-spacing: 0.005em;
+  text-wrap: balance;
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  line-height: 1.45;
+  color: var(--fg);
+}
+
+.label {
+  font-family: var(--ff-mono);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--fg-soft);
+  margin: 0;
+}
+.label--accent { color: var(--accent); }
+
+.mono { font-family: var(--ff-mono); font-size: var(--fs-small); }
+
+.prose { max-width: 66ch; }
+.prose p + p { margin-top: 1.05em; }
+.prose > * + .h3 { margin-top: 2.2em; }
+.prose .h3 + p { margin-top: 0.7em; }
+.soft { color: var(--fg-soft); }
+
+.link {
+  color: inherit;
+  text-decoration: none;
+  background-image: linear-gradient(var(--deco), var(--deco));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 1px;
+  padding-bottom: 1px;
+  transition: background-size var(--t-1) var(--ease-mech);
+}
+.link:hover { background-size: 100% 2px; }
+
+/* --- Layout --------------------------------------------------------------- */
+
+.wrap {
+  width: min(100% - (var(--gutter) * 2), var(--page-max));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: clamp(3.75rem, 8.5vw, 8rem);
+}
+.section--tight { padding-block: clamp(2.75rem, 5.5vw, 4.75rem); }
+
+/* The stile rail: a permanent left column carrying the mono labelling,
+   the way a cabinet stile carries the hardware. */
+/* minmax(0, 1fr) rather than the implicit `auto`: an auto track refuses to
+   shrink below its widest word, which is how one long headline drags the
+   whole page wider than the viewport. */
+.rail { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 1.15rem; }
+.rail__label { align-self: start; }
+@media (min-width: 900px) {
+  .rail {
+    grid-template-columns: var(--rail-w) minmax(0, 1fr);
+    column-gap: clamp(2rem, 4.5vw, 4.5rem);
+  }
+  .rail__label { padding-top: 0.55rem; }
+}
+
+.stack { display: grid; align-content: start; }
+.stack > * + * { margin-top: var(--gap, 1.5rem); }
+
+.grid {
+  display: grid;
+  gap: clamp(1rem, 1.6vw, 1.5rem);
+  grid-template-columns: repeat(var(--cols, 1), minmax(0, 1fr));
+}
+@media (min-width: 700px) { .grid { --cols: 2; } }
+@media (min-width: 1040px) { .grid { --cols: var(--cols-lg, 2); } }
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--cavity);
+  color: var(--paper);
+  padding: 0.85rem 1.15rem;
+  font-family: var(--ff-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.skip:focus { left: 0.75rem; top: 0.75rem; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* --- The seam: the signature ---------------------------------------------- */
+
+/* A 1px line carrying a brass tick at its leading edge, which travels into
+   place from the left. Used as the divider everywhere. */
+.seam {
+  overflow: hidden;
+  height: 5px;
+  width: 100%;
+}
+.seam__run {
+  position: relative;
+  height: 1px;
+  margin-top: 2px;
+  background: var(--line);
+}
+.seam__tick {
+  position: absolute;
+  right: 0;
+  top: -2px;
+  width: 22px;
+  height: 5px;
+  background: var(--deco);
+  border-radius: 1px;
+}
+.seam--start .seam__tick { right: auto; left: 0; }
+
+/* --- Buttons -------------------------------------------------------------- */
+
+.btn {
+  --btn-bg: var(--fg);
+  --btn-fg: var(--bg);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.95rem 1.5rem;
+  border: 1px solid var(--fg);
+  border-radius: var(--r);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--ff-display);
+  font-size: 0.795rem;
+  font-weight: 620;
+  font-stretch: 106%;
+  letter-spacing: 0.115em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+}
+/* Hover is a brass leading edge travelling across — the same vocabulary,
+   at the smallest scale on the site. */
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--deco);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--t-1) var(--ease-mech);
+}
+.btn:hover::before,
+.btn:focus-visible::before { transform: scaleX(1); }
+.btn:hover,
+.btn:focus-visible { color: #fff; border-color: var(--deco); }
+
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--fg);
+  border-color: color-mix(in srgb, var(--fg) 40%, transparent);
+}
+.btn--ghost:hover,
+.btn--ghost:focus-visible { color: #fff; }
+
+.btn__tick {
+  width: 14px;
+  height: 3px;
+  background: currentColor;
+  border-radius: 1px;
+  transition: transform var(--t-1) var(--ease-mech);
+}
+.btn:hover .btn__tick,
+.btn:focus-visible .btn__tick { transform: translateX(4px); }
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* --- Panels --------------------------------------------------------------- */
+
+.panel {
+  position: relative;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-edge);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-panel);
+  padding: clamp(1.4rem, 2.6vw, 2.4rem);
+  overflow: hidden;
+}
+.surface-dark .panel { box-shadow: none; }
+
+.panel__index {
+  font-family: var(--ff-mono);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+}
+
+/* --- Reveal system -------------------------------------------------------- */
+/* Two mechanics, both authentic to the product, both transform-only:
+   [lift]  content rises out of a slot, like a screen out of a cabinet.
+   [leaf]  a door leaf slides away off the face of a panel.
+   Both are gated on .js so that with scripting off, everything is visible. */
+
+.js [data-rv='lift'] {
+  overflow: hidden;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.js [data-rv='lift'] > * {
+  transform: translateY(102%);
+  transition: transform var(--t-3) var(--ease-mech) var(--rv-d, 0ms);
+}
+.js [data-rv='lift'].is-open > * { transform: translateY(0); }
+
+.js [data-rv='leaf']::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: 4;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  transform: translateY(0);
+  transition: transform var(--t-3) var(--ease-mech) var(--rv-d, 0ms);
+}
+.js [data-rv='leaf'].is-open::after { transform: translateY(-101%); }
+
+/* The seam run, triggered on scroll rather than load. */
+.js [data-rv='seam'] .seam__run {
+  transform: translateX(-100%);
+  transition: transform var(--t-3) var(--ease-mech) var(--rv-d, 0ms);
+}
+.js [data-rv='seam'].is-open .seam__run { transform: translateX(0); }
+
+/* --- Hero ----------------------------------------------------------------- */
+/* CSS-only so it plays with scripting off and needs no JS on the critical
+   path. Keyframes, not transitions, for the same reason. */
+
+.hero {
+  position: relative;
+  padding-block: clamp(3.5rem, 9vw, 8rem) clamp(3rem, 6vw, 5.5rem);
+  overflow: hidden;
+}
+
+.hero__title {
+  font-size: var(--fs-display);
+  font-family: var(--ff-display);
+  font-weight: 640;
+  font-stretch: 118%;
+  line-height: 0.9;
+  letter-spacing: -0.006em;
+  text-transform: uppercase;
+  margin-top: 1.5rem;
+}
+.hero__line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.05em;
+  margin-bottom: -0.05em;
+}
+.hero__line > span {
+  display: block;
+  animation: rise var(--t-3) var(--ease-mech) var(--d, 0ms) both;
+}
+@keyframes rise {
+  from { transform: translateY(104%); }
+  to { transform: translateY(0); }
+}
+
+.hero__eyebrow > span {
+  display: block;
+  animation: rise var(--t-2) var(--ease-mech) 60ms both;
+}
+.hero__eyebrow { display: block; overflow: hidden; }
+
+.hero__seam { margin-top: clamp(1.6rem, 3vw, 2.5rem); }
+.hero__seam .seam__run {
+  transform: translateX(-100%);
+  animation: travel var(--t-3) var(--ease-mech) 480ms both;
+}
+@keyframes travel {
+  to { transform: translateX(0); }
+}
+
+.hero__lower {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.75rem);
+  margin-top: clamp(1.6rem, 3vw, 2.4rem);
+}
+@media (min-width: 900px) {
+  .hero__lower { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
+}
+.hero__reveal {
+  overflow: hidden;
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
+}
+.hero__reveal > * {
+  animation: rise var(--t-2) var(--ease-mech) var(--d, 620ms) both;
+}
+
+/* Capability spec block — product facts, not business claims. */
+/* Whether a spec row can hold its value beside its label is a question about
+   the column it sits in, not about the viewport — so it is asked with a
+   container query. The viewport rule below is the fallback. */
+.spec {
+  container-type: inline-size;
+  border-top: 1px solid var(--line);
+}
+@container (max-width: 370px) {
+  .spec__row { grid-template-columns: minmax(0, 1fr); gap: 0.15rem; }
+  .spec__v { text-align: left; }
+}
+.spec__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.62rem 0;
+  border-bottom: 1px solid var(--panel-edge);
+}
+.spec__k {
+  font-family: var(--ff-mono);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+}
+.spec__v {
+  font-family: var(--ff-mono);
+  font-size: 0.855rem;
+  text-align: right;
+  color: var(--fg);
+}
+/* Below this the value column can no longer sit beside its label without the
+   two running into each other. Stack instead of overlap. */
+@media (max-width: 540px) {
+  .spec__row { grid-template-columns: minmax(0, 1fr); gap: 0.15rem; }
+  .spec__v { text-align: left; }
+}
+
+/* --- Header / nav --------------------------------------------------------- */
+
+.hdr {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: color-mix(in srgb, var(--plaster) 88%, transparent);
+  backdrop-filter: blur(9px);
+  border-bottom: 1px solid var(--seam);
+}
+.hdr__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 64px;
+}
+
+.mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  padding: 0.4rem 0;
+}
+.mark__glyph {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  overflow: hidden;
+  border: 1px solid var(--cavity);
+  border-radius: 2px;
+  position: relative;
+  background: var(--paper);
+}
+/* The mark is the product: a panel, and something behind it that is
+   part-way out. */
+.mark__glyph::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  bottom: -1px;
+  height: 11px;
+  background: var(--cavity);
+  transform: translateY(6px);
+  transition: transform var(--t-2) var(--ease-mech);
+}
+.mark:hover .mark__glyph::before,
+.mark:focus-visible .mark__glyph::before { transform: translateY(0); }
+.mark__name {
+  font-family: var(--ff-display);
+  font-weight: 640;
+  font-stretch: 112%;
+  font-size: 0.9rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* Measured, not guessed. Wordmark (225) + links (497) + gap fits inside the
+   942px of usable width at 1024. Adding the quote button (205) does not — it
+   needs 1100. So Contact rides in the nav as a text link, and is promoted to
+   a button once there is room for one. */
+.nav { display: none; }
+@media (min-width: 1024px) {
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.9rem, 1.6vw, 1.6rem);
+  }
+}
+.nav__link {
+  position: relative;
+  font-family: var(--ff-mono);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.55rem 0;
+  color: var(--ink-soft);
+}
+.nav__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--brass);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--t-1) var(--ease-mech);
+}
+.nav__link:hover,
+.nav__link[aria-current='page'] { color: var(--cavity); }
+.nav__link:hover::after,
+.nav__link:focus-visible::after,
+.nav__link[aria-current='page']::after { transform: scaleX(1); }
+
+.nav__cta { display: none; padding: 0.72rem 1.15rem; font-size: 0.735rem; }
+@media (min-width: 1120px) {
+  .nav__cta { display: inline-flex; }
+  .nav__link--promoted { display: none; }
+}
+
+/* Menu button — two bars that become a seam. */
+.menu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: none;
+  border: 1px solid var(--panel-edge);
+  border-radius: var(--r);
+  padding: 0.6rem 0.85rem;
+  cursor: pointer;
+  font-family: var(--ff-mono);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+@media (min-width: 1024px) { .menu-btn { display: none; } }
+.menu-btn__bars {
+  display: grid;
+  gap: 4px;
+  width: 17px;
+}
+.menu-btn__bars i {
+  display: block;
+  height: 2px;
+  background: currentColor;
+  transition: transform var(--t-1) var(--ease-mech);
+}
+.menu-btn[aria-expanded='true'] .menu-btn__bars i:first-child { transform: translateY(3px); }
+.menu-btn[aria-expanded='true'] .menu-btn__bars i:last-child { transform: translateY(-3px); }
+
+/* Mobile menu — a ceiling panel dropping into the room. */
+.sheet {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 39;
+  background: var(--paper);
+  border-bottom: 1px solid var(--seam);
+  padding: calc(64px + 1.75rem) 0 2rem;
+  transform: translateY(-100%);
+  transition: transform var(--t-2) var(--ease-mech), visibility 0s linear var(--t-2);
+  visibility: hidden;
+  max-height: 100dvh;
+  overflow-y: auto;
+  box-shadow: 0 26px 40px -30px rgba(34, 29, 24, 0.65);
+}
+.sheet.is-open {
+  transform: translateY(0);
+  visibility: visible;
+  transition: transform var(--t-2) var(--ease-mech), visibility 0s;
+}
+/* The brass tick rides the panel's bottom edge — the same leading edge the
+   seam runs carry everywhere else. */
+.sheet::after {
+  content: '';
+  position: absolute;
+  right: var(--gutter);
+  bottom: -2px;
+  width: 22px;
+  height: 5px;
+  background: var(--brass);
+  border-radius: 1px;
+}
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 38;
+  background: rgba(34, 29, 24, 0.35);
+  visibility: hidden;
+}
+.scrim.is-open { visibility: visible; }
+.sheet__list { display: grid; }
+.sheet__link {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.95rem 0;
+  border-bottom: 1px solid var(--panel-edge);
+  text-decoration: none;
+  font-family: var(--ff-display);
+  font-weight: 620;
+  font-stretch: 108%;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.sheet__link span {
+  font-family: var(--ff-mono);
+  font-size: var(--fs-label);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+}
+.sheet__foot { margin-top: 1.6rem; display: grid; gap: 0.75rem; }
+
+/* --- Service cards -------------------------------------------------------- */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-edge);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-panel);
+  padding: clamp(1.35rem, 2.2vw, 2rem);
+  text-decoration: none;
+  overflow: hidden;
+  transition: transform var(--t-1) var(--ease-mech);
+}
+.card:hover { transform: translateY(-3px); }
+.card__head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.card__title { margin-top: 0.9rem; }
+.card__desc { margin-top: 0.6rem; color: var(--fg-soft); font-size: 0.99rem; line-height: 1.55; }
+
+/* The drawer: what's behind the face of the card. Discloses on hover or
+   keyboard focus; on touch devices it is simply always open. */
+/* Open by default, and only concealed where a hover reveal is genuinely
+   possible. Written this way round on purpose: if the media query fails to
+   match on some hybrid device, the failure mode is "specs are visible",
+   not "specs are unreachable". */
+.card__drawer {
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows var(--t-2) var(--ease-mech);
+}
+.card__drawer > div { min-height: 0; overflow: hidden; }
+@media (hover: hover) and (pointer: fine) {
+  .card__drawer { grid-template-rows: 0fr; }
+  .card:hover .card__drawer,
+  .card:focus-visible .card__drawer,
+  .card:focus-within .card__drawer { grid-template-rows: 1fr; }
+}
+.card__specs {
+  padding-top: 1.1rem;
+  margin-top: 1.1rem;
+  border-top: 1px solid var(--panel-edge);
+  display: grid;
+  gap: 0.35rem;
+}
+.card__specs li {
+  font-family: var(--ff-mono);
+  font-size: 0.775rem;
+  letter-spacing: 0.02em;
+  color: var(--fg-soft);
+  display: flex;
+  gap: 0.6rem;
+}
+.card__specs li::before {
+  content: '';
+  flex: none;
+  width: 10px;
+  height: 2px;
+  background: var(--deco);
+  margin-top: 0.62em;
+}
+.card__go {
+  margin-top: auto;
+  padding-top: 1.4rem;
+  font-family: var(--ff-mono);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.card__go i {
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: currentColor;
+  transition: transform var(--t-1) var(--ease-mech);
+}
+.card:hover .card__go i { transform: translateX(5px); }
+
+@media (min-width: 1040px) {
+  .cards { --cols-lg: 3; }
+  .cards > .card--wide { grid-column: span 2; }
+}
+
+/* --- Photo slot: a shop drawing, not a grey box --------------------------- */
+
+.slot {
+  position: relative;
+  aspect-ratio: var(--ar, 3 / 2);
+  border: 1px dashed var(--line);
+  border-radius: var(--r);
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 9px,
+      color-mix(in srgb, var(--line) 34%, transparent) 9px 10px
+    ),
+    color-mix(in srgb, var(--panel-bg) 62%, transparent);
+  display: grid;
+  place-content: center;
+  text-align: center;
+  padding: 1.5rem;
+  overflow: hidden;
+}
+.slot__inner { max-width: 34ch; display: grid; gap: 0.45rem; justify-items: center; }
+.slot__kicker {
+  font-family: var(--ff-mono);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.slot__what {
+  font-family: var(--ff-display);
+  font-weight: 600;
+  font-stretch: 104%;
+  font-size: 0.99rem;
+  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.slot__meta {
+  font-family: var(--ff-mono);
+  font-size: 0.735rem;
+  color: var(--fg-soft);
+  overflow-wrap: anywhere;
+}
+/* Dimension ticks in the corners — the drawing convention. */
+.slot::before,
+.slot::after {
+  content: '';
+  position: absolute;
+  background: var(--deco);
+}
+.slot::before { top: 10px; left: 10px; width: 20px; height: 2px; }
+.slot::after { bottom: 10px; right: 10px; width: 20px; height: 2px; }
+
+/* --- Before / after ------------------------------------------------------- */
+
+.ba {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border: 1px solid var(--panel-edge);
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--panel-bg);
+  touch-action: pan-y;
+  user-select: none;
+}
+@media (min-width: 700px) { .ba { aspect-ratio: 16 / 9; } }
+.ba__face { position: absolute; inset: 0; }
+.ba__face--after { clip-path: inset(0 0 0 var(--pos, 50%)); }
+.ba__face--before { clip-path: inset(0 calc(100% - var(--pos, 50%)) 0 0); }
+.ba__face .slot { border: 0; border-radius: 0; height: 100%; aspect-ratio: auto; }
+/* Each caption sits away from the divider, so the two never collide when the
+   pull is near the middle. */
+.ba__face .slot__inner { max-width: 26ch; }
+.ba__face--before .slot { place-content: center start; text-align: left; }
+.ba__face--before .slot__inner { justify-items: start; }
+.ba__face--after .slot { place-content: center end; text-align: right; }
+.ba__face--after .slot__inner { justify-items: end; }
+/* On a narrow screen a 16:10 strip leaves no room for two captions side by
+   side. Go portrait, anchor both captions to the top so they clear the
+   state tags at the bottom, and keep them narrow enough to stay on their own
+   side of the divider. */
+@media (max-width: 640px) {
+  .ba { aspect-ratio: 4 / 5; }
+  .ba__face .slot { padding: 0.85rem; }
+  .ba__face .slot__inner { max-width: 15ch; gap: 0.3rem; }
+  .ba__face .slot__kicker { font-size: 0.6rem; letter-spacing: 0.1em; }
+  .ba__face .slot__what { font-size: 0.775rem; }
+  .ba__face .slot__meta { font-size: 0.6rem; }
+  .ba__face--before .slot { place-content: start start; }
+  .ba__face--after .slot { place-content: start end; }
+  .ba__pull { height: 48px; }
+}
+.ba__face--after .slot {
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 9px,
+      rgba(229, 224, 214, 0.16) 9px 10px
+    ),
+    var(--cavity);
+  color: var(--on-cavity);
+}
+.ba__face--after .slot__kicker { color: var(--brass-lit); }
+.ba__face--after .slot__meta { color: var(--on-cavity-soft); }
+
+/* A native range input, stretched over the whole box, does the work: drag,
+   touch and arrow keys all come free and correctly announced. The visible
+   pull is a sibling that follows --pos. */
+.ba__range {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: ew-resize;
+  touch-action: none;
+}
+.ba__range::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 46px;
+  height: 240px;
+  background: transparent;
+  cursor: ew-resize;
+}
+.ba__range::-moz-range-thumb {
+  width: 46px;
+  height: 240px;
+  background: transparent;
+  border: 0;
+  cursor: ew-resize;
+}
+.ba__range:focus { outline: none; }
+.ba__range:focus-visible ~ .ba__handle .ba__pull {
+  outline: 2px solid var(--brass-lit);
+  outline-offset: 3px;
+}
+
+.ba__handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--pos, 50%);
+  z-index: 2;
+  width: 46px;
+  margin-left: -23px;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+}
+.ba__handle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--brass-lit);
+}
+/* A cabinet pull, not a circle. */
+.ba__pull {
+  position: relative;
+  width: 12px;
+  height: 62px;
+  border-radius: 6px;
+  background: var(--brass);
+  box-shadow: 0 2px 6px rgba(34, 29, 24, 0.45);
+  transition: transform var(--t-1) var(--ease-mech);
+}
+.ba__range:hover ~ .ba__handle .ba__pull { transform: scaleY(1.14); }
+
+.ba__tag {
+  position: absolute;
+  bottom: 12px;
+  font-family: var(--ff-mono);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.42rem 0.7rem;
+  border-radius: 2px;
+  background: rgba(34, 29, 24, 0.82);
+  color: var(--on-cavity);
+  pointer-events: none;
+}
+.ba__tag--l { left: 12px; }
+.ba__tag--r { right: 12px; }
+
+/* --- Steps (a genuine sequence, so it is genuinely numbered) -------------- */
+
+.steps { display: grid; gap: 1px; background: var(--line); border-block: 1px solid var(--line); }
+@media (min-width: 700px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1040px) { .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.step {
+  background: var(--bg);
+  padding: clamp(1.3rem, 2.2vw, 2rem);
+  position: relative;
+  overflow: hidden;
+}
+.step__n {
+  font-family: var(--ff-mono);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+}
+.step__t { margin-top: 0.85rem; }
+.step__b { margin-top: 0.6rem; color: var(--fg-soft); font-size: 0.985rem; line-height: 1.55; }
+
+/* --- Price rows ----------------------------------------------------------- */
+
+.price { display: grid; gap: 1px; background: var(--line); border-block: 1px solid var(--line); }
+.price__row {
+  background: var(--bg);
+  padding: clamp(1.3rem, 2.4vw, 2.1rem) 0;
+  display: grid;
+  gap: 0.9rem;
+}
+@media (min-width: 860px) {
+  .price__row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) auto;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    align-items: start;
+  }
+}
+.price__fig {
+  font-family: var(--ff-mono);
+  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.35rem);
+  font-weight: 600;
+  color: var(--fg);
+  white-space: nowrap;
+}
+@media (min-width: 860px) { .price__fig { text-align: right; } }
+.price__unit { display: block; font-size: 0.72rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-soft); margin-top: 0.25rem; }
+.price__body { color: var(--fg-soft); font-size: 0.99rem; line-height: 1.55; }
+
+/* --- FAQ ------------------------------------------------------------------ */
+
+.faq { border-top: 1px solid var(--line); }
+.faq__item { border-bottom: 1px solid var(--line); }
+.faq__q {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 1.25rem 0;
+  background: none;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--ff-display);
+  font-weight: 600;
+  font-stretch: 102%;
+  font-size: 1.04rem;
+  line-height: 1.3;
+  letter-spacing: 0.006em;
+}
+.faq__sign { position: relative; flex: none; width: 15px; height: 15px; margin-top: 0.3em; }
+.faq__sign::before,
+.faq__sign::after {
+  content: '';
+  position: absolute;
+  background: var(--deco);
+  transition: transform var(--t-1) var(--ease-mech);
+}
+.faq__sign::before { left: 0; right: 0; top: 6px; height: 2px; }
+.faq__sign::after { top: 0; bottom: 0; left: 6px; width: 2px; }
+.faq__q[aria-expanded='true'] .faq__sign::after { transform: scaleY(0); }
+.faq__a {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--t-2) var(--ease-mech);
+}
+.faq__a > div { min-height: 0; overflow: hidden; }
+.faq__item.is-open .faq__a { grid-template-rows: 1fr; }
+.faq__a p { padding-bottom: 1.35rem; max-width: 68ch; color: var(--fg-soft); }
+
+/* --- Forms ---------------------------------------------------------------- */
+
+.field { display: grid; gap: 0.5rem; }
+.field > label {
+  font-family: var(--ff-mono);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+}
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-edge);
+  border-bottom-color: var(--line);
+  border-radius: var(--r);
+  padding: 0.85rem 0.95rem;
+  font-family: var(--ff-body);
+  font-size: 1rem;
+  color: var(--fg);
+  transition: border-color var(--t-1) var(--ease-mech);
+}
+.field textarea { min-height: 9.5rem; resize: vertical; }
+.field input:focus,
+.field textarea:focus,
+.field select:focus { border-color: var(--deco); }
+.field input:user-invalid,
+.field textarea:user-invalid { border-color: #8c3a26; }
+.field__hint { font-family: var(--ff-mono); font-size: 0.735rem; color: var(--fg-soft); }
+.form-grid { display: grid; gap: 1.15rem; }
+@media (min-width: 700px) {
+  .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .form-grid .field--full { grid-column: 1 / -1; }
+}
+
+/* --- Footer --------------------------------------------------------------- */
+
+.ftr { padding-block: clamp(3rem, 6vw, 5rem) 2rem; }
+.ftr__grid { display: grid; gap: 2.4rem; }
+@media (min-width: 860px) {
+  .ftr__grid { grid-template-columns: minmax(0, 1.3fr) repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 3vw, 3rem); }
+}
+.ftr__list { display: grid; gap: 0.55rem; margin-top: 1.1rem; }
+.ftr__list a { font-size: 0.945rem; text-decoration: none; color: var(--fg-soft); }
+.ftr__list a:hover { color: var(--fg); }
+.ftr__base {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 2rem;
+  justify-content: space-between;
+  font-family: var(--ff-mono);
+  font-size: 0.735rem;
+  color: var(--fg-soft);
+}
+
+/* --- Area / list bits ----------------------------------------------------- */
+
+.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.chip {
+  font-family: var(--ff-mono);
+  font-size: 0.755rem;
+  letter-spacing: 0.06em;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--panel-edge);
+  border-radius: var(--r);
+  color: var(--fg-soft);
+  text-decoration: none;
+  transition: border-color var(--t-1) var(--ease-mech), color var(--t-1) var(--ease-mech);
+}
+.chip:hover { border-color: var(--deco); color: var(--fg); }
+
+.ticks { display: grid; gap: 0.7rem; }
+.ticks li { display: flex; gap: 0.85rem; line-height: 1.5; }
+.ticks li::before {
+  content: '';
+  flex: none;
+  width: 14px;
+  height: 2px;
+  background: var(--deco);
+  margin-top: 0.72em;
+}
+
+.pair { display: grid; gap: clamp(1rem, 1.8vw, 1.5rem); }
+@media (min-width: 860px) { .pair { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* --- Reduced motion: everything is immediately present and usable --------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .js [data-rv='lift'] > *,
+  .js [data-rv='seam'] .seam__run,
+  .hero__line > span,
+  .hero__eyebrow > span,
+  .hero__reveal > *,
+  .hero__seam .seam__run { transform: none !important; }
+
+  .js [data-rv='leaf']::after { display: none; }
+
+  .js [data-rv='lift'] { overflow: visible; }
+
+  .card__drawer,
+  .faq__item.is-open .faq__a { grid-template-rows: 1fr; }
+
+  .sheet { transition: none; }
+}

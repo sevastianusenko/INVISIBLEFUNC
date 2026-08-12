@@ -1,0 +1,35 @@
+---
+import Seam from './Seam.astro';
+
+interface Props {
+  eyebrow: string;
+  /** Each entry is one masked line that rises on load. */
+  lines: string[];
+  lead: string;
+}
+const { eyebrow, lines, lead } = Astro.props;
+---
+
+<section class="hero surface-light">
+  <div class="wrap">
+    <div class="rail">
+      <p class="label rail__label hero__eyebrow"><span>{eyebrow}</span></p>
+      <div>
+        <h1 class="hero__title" style="font-size:var(--fs-h1)">
+          {
+            lines.map((line, i) => (
+              <span class="hero__line">
+                <span style={`--d:${80 + i * 110}ms`}>{line}</span>
+              </span>
+            ))
+          }
+        </h1>
+        <div class="hero__seam"><Seam reveal={false} /></div>
+        <div class="hero__reveal" style="margin-top:1.5rem;max-width:60ch">
+          <p class="lead" style={`--d:${420 + lines.length * 110}ms`}>{lead}</p>
+        </div>
+        <slot />
+      </div>
+    </div>
+  </div>
+</section>

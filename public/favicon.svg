@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Invisible Function">
+  <rect width="32" height="32" rx="3" fill="#d5d1c7"/>
+  <rect x="6.5" y="5.5" width="19" height="21" rx="2" fill="#e9e6df" stroke="#221d18" stroke-width="1.6"/>
+  <rect x="9.5" y="15" width="13" height="11.5" fill="#221d18"/>
+  <rect x="9.5" y="13" width="13" height="1.6" fill="#9e7c3e"/>
+</svg>

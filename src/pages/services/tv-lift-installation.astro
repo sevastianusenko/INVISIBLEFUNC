@@ -1,0 +1,231 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Seam from '../../components/Seam.astro';
+import PhotoSlot from '../../components/PhotoSlot.astro';
+import Faq from '../../components/Faq.astro';
+import Cta from '../../components/Cta.astro';
+import { serviceSchema, faqSchema } from '../../lib/schema';
+
+const path = '/services/tv-lift-installation/';
+const description =
+  'Floor, ceiling, foot-of-bed and behind-art TV lifts in Lancaster County. Mechanism chosen for the screen weight and the real opening, not for a catalog.';
+
+const types = [
+  {
+    n: 'A',
+    t: 'Out of a cabinet or console',
+    b: 'The common one. A column lift inside a case, screen rising out through a lid that opens on the same cycle. Sits against a wall or in the middle of a room as a divider. Needs case depth, a stable base and a lid mechanism that never fights the column.',
+    spec: 'Travel 24–48 in · screen to 85 in',
+  },
+  {
+    n: 'B',
+    t: 'Down from the ceiling',
+    b: 'A drop-down or flip-down lift in the joist space, closing to a flush ceiling panel. The hard part is not the lift — it is the closure, the joist framing and getting the panel to sit flat in a ceiling that is not flat.',
+    spec: 'Drop 12–48 in · needs 8–14 in of depth',
+  },
+  {
+    n: 'C',
+    t: 'At the foot of the bed',
+    b: 'A lift built into a bench, blanket chest or bed footboard. Height matters more than anywhere else — the top of the screen has to clear the mattress without dominating the room when it is up.',
+    spec: 'Travel 20–40 in · screen to 65 in',
+  },
+  {
+    n: 'D',
+    t: 'Behind art',
+    b: 'The artwork slides, rolls or pivots aside on cue and the screen is behind it. The mechanism is straightforward; the coordination is not, because the art has to be handled, weighed, and often reframed to sit in the carrier.',
+    spec: 'Art weight to 90 lb · lateral or roll-up',
+  },
+  {
+    n: 'E',
+    t: 'Up from a counter or island',
+    b: 'A short-travel pop-up in a kitchen island, bar or built-in desk. Usually the tightest of the five, because the cabinet is already full of something else and the countertop cut has to be exact.',
+    spec: 'Travel 14–28 in · screen to 43 in',
+  },
+];
+
+const decides = [
+  ['Screen weight and size', 'The published capacity of a lift is not the number to design to. Panel weight, mount weight, cable weight and any art carrier all land on the same column.'],
+  ['Available travel', 'How far the screen has to move to be genuinely out of sight, measured in the room rather than assumed from the drawing.'],
+  ['What it mounts to', 'Slab, joist, stud bay, or a cabinet carcass that has to be built stiff enough to take the reaction load without racking.'],
+  ['Noise floor', 'A quiet room makes a mediocre motor obvious. Screw-drive columns, belt drives and rack systems all sound different, and the mounting is half the noise.'],
+  ['Control path', 'Whether it needs to answer to a control system, a wall keypad, a dry contact from the projector, or just a handset that will not get lost.'],
+];
+
+const faqs = [
+  {
+    q: 'Do you supply the lift, or only install one I have already bought?',
+    a: 'Either. If you have already bought the mechanism, I will install it as a subcontract and tell you honestly if I think it is wrong for the opening before anything gets cut. If I am supplying, I will show you two options with the reasoning and the price difference.',
+  },
+  {
+    q: 'How long does an installation take?',
+    a: 'A straight install into existing millwork is usually one day, plus a short return visit to adjust after the house has moved a little. A shop-built cabinet with a mechanism in it is typically two to four weeks from approved drawing to installed, most of which is shop time rather than site time.',
+  },
+  {
+    q: 'How fast do these actually move?',
+    a: 'Between roughly half an inch and one and a half inches per second, depending on the mechanism. That feels slow the first time you see it. It is meant to — speed is what cheap mechanisms use to seem impressive, and it is also what makes them loud.',
+  },
+  {
+    q: 'What happens if the motor fails in ten years?',
+    a: 'Every build gets a manual override and an access path that does not involve demolition. I keep the mechanism model, the serial number and the wiring notes on file, and column lifts from the manufacturers I use are still serviceable well beyond their warranty.',
+  },
+  {
+    q: 'Can this go into a house that is already finished?',
+    a: 'Often, yes. A cabinet lift usually can. A ceiling lift depends entirely on joist direction and what is already in the bay, which is a measurement question rather than an opinion — I will come and find out before quoting.',
+  },
+];
+---
+
+<Base
+  title="Motorized TV lift installation | Invisible Function"
+  description={description}
+  schema={[
+    serviceSchema({
+      name: 'Motorized TV lift installation',
+      description,
+      path,
+      serviceType: 'Motorized television lift installation and cabinetry',
+    }),
+    faqSchema(faqs),
+  ]}
+>
+  <PageHero
+    eyebrow="M-01 · TV lifts"
+    lines={['A screen that', 'is only there', 'when it matters']}
+    lead="Floor, ceiling, foot-of-bed, behind-art and counter lifts. The mechanism is chosen against the screen weight and the real opening, the cabinet is built in the shop, and the wiring and the finish work come with it."
+  >
+    <div class="hero__reveal" style="margin-top:1.9rem">
+      <div class="btn-row" style="--d:820ms">
+        <a class="btn" href="/contact/">
+          Price a lift
+          <span class="btn__tick" aria-hidden="true"></span>
+        </a>
+        <a class="btn btn--ghost" href="/pricing/">
+          Ranges
+          <span class="btn__tick" aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+  </PageHero>
+
+  <!-- ── Five configurations ──────────────────────────────────────────────── -->
+  <section class="section surface-paper">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Configurations</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Where the screen goes when it is gone</h2></div>
+          <p class="lead soft" style="margin-top:1.1rem;max-width:56ch">
+            Five arrangements cover almost every residential job. The choice is
+            usually made by the room, not by preference.
+          </p>
+
+          <div class="stack" style="--gap:1rem;margin-top:clamp(1.75rem,3.5vw,2.5rem)">
+            {
+              types.map((t, i) => (
+                <article class="panel" data-rv="leaf" style={`--rv-d:${i * 70}ms`}>
+                  <div class="card__head">
+                    <span class="panel__index">{t.n}</span>
+                    <span class="mono soft">{t.spec}</span>
+                  </div>
+                  <h3 class="h3" style="margin-top:.85rem">{t.t}</h3>
+                  <p style="margin-top:.7rem;max-width:64ch" class="soft">{t.b}</p>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── What decides the mechanism ───────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Selection</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Five numbers pick the mechanism</h2></div>
+          <p class="lead soft" style="margin-top:1.1rem;max-width:58ch">
+            Not the brochure, and not what is in stock. These get measured or
+            confirmed before anything is quoted.
+          </p>
+
+          <dl class="spec" style="margin-top:clamp(1.75rem,3vw,2.5rem)">
+            {
+              decides.map(([k, v]) => (
+                <div class="spec__row" style="grid-template-columns:minmax(0,1fr);gap:.4rem">
+                  <dt class="spec__k">{k}</dt>
+                  <dd class="price__body" style="margin:0">{v}</dd>
+                </div>
+              ))
+            }
+          </dl>
+
+          <div class="pair" style="margin-top:clamp(2rem,4vw,3rem)">
+            <PhotoSlot
+              what="Column lift on the bench, mid-travel, with the cabinet carcass dry-fitted around it"
+              ratio="4 / 3"
+              path="/images/tv-lifts/bench-cycle.jpg"
+            />
+            <PhotoSlot
+              what="Detail of the closed lid meeting the cabinet top — the reveal line, raking light"
+              ratio="4 / 3"
+              path="/images/tv-lifts/lid-reveal.jpg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Brand independence ───────────────────────────────────────────────── -->
+  <section class="section surface-dark">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label label--accent">Independence</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">I am not anyone's dealer</h2></div>
+          <div class="prose" style="margin-top:1.2rem">
+            <p>
+              Auton, Nexus&nbsp;21, Future&nbsp;Automation and Firgelli all make
+              mechanisms I have specified and installed. They are good at different
+              things and they fail in different ways, and none of them is the right
+              answer to every opening.
+            </p>
+            <p>
+              What that means in practice: the quote names the mechanism, the model
+              number and why it was chosen, along with the option I did not pick and
+              what it would have cost. If you would rather buy the mechanism yourself
+              at your own trade pricing, that is fine — I will install it.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Questions</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Asked before every job</h2></div>
+          <div style="margin-top:clamp(1.5rem,3vw,2.25rem)">
+            <Faq items={faqs} id="tvlift" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    title="Send the screen model and a photo of the wall"
+    body="That plus a rough ceiling height is usually enough for a mechanism recommendation and a range. Drawings and finish schedules welcome but not required."
+  />
+</Base>

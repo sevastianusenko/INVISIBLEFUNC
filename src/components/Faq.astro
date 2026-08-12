@@ -1,0 +1,45 @@
+---
+interface Props {
+  items: { q: string; a: string }[];
+  id?: string;
+}
+const { items, id = 'faq' } = Astro.props;
+---
+
+<div class="faq" data-faq>
+  {
+    items.map((item, i) => (
+      <div class="faq__item">
+        <h3>
+          <button
+            class="faq__q"
+            type="button"
+            aria-expanded="false"
+            aria-controls={`${id}-a-${i}`}
+            id={`${id}-q-${i}`}
+          >
+            {item.q}
+            <span class="faq__sign" aria-hidden="true" />
+          </button>
+        </h3>
+        <div class="faq__a" id={`${id}-a-${i}`} role="region" aria-labelledby={`${id}-q-${i}`}>
+          <div><p>{item.a}</p></div>
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-faq]').forEach((faq) => {
+    faq.querySelectorAll<HTMLButtonElement>('.faq__q').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq__item');
+        if (!item) return;
+        const next = btn.getAttribute('aria-expanded') !== 'true';
+        btn.setAttribute('aria-expanded', String(next));
+        item.classList.toggle('is-open', next);
+      });
+    });
+  });
+</script>

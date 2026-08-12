@@ -1,0 +1,45 @@
+---
+import Seam from './Seam.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  body: string;
+  primary?: { href: string; label: string };
+  secondary?: { href: string; label: string };
+}
+const {
+  title,
+  body,
+  primary = { href: '/contact/', label: 'Request a quote' },
+  secondary = { href: '/pricing/', label: 'See working ranges' },
+} = Astro.props;
+---
+
+<section class="section surface-dark">
+  <div class="wrap">
+    <Seam />
+    <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+      <p class="label rail__label label--accent">Next step</p>
+      <div>
+        <div data-rv="lift">
+          <h2 class="h2">{title}</h2>
+        </div>
+        <p class="lead soft" style="margin-top:1.1rem;max-width:56ch">{body}</p>
+        <div class="btn-row" style="margin-top:2rem">
+          <a class="btn" href={primary.href}>
+            {primary.label}
+            <span class="btn__tick" aria-hidden="true"></span>
+          </a>
+          <a class="btn btn--ghost" href={secondary.href}>
+            {secondary.label}
+            <span class="btn__tick" aria-hidden="true"></span>
+          </a>
+        </div>
+        <p class="mono soft" style="margin-top:1.75rem">
+          {site.email} &nbsp;·&nbsp; {site.phone} &nbsp;·&nbsp; {site.city}, {site.region}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

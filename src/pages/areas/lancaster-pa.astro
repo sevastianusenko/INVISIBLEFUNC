@@ -1,0 +1,182 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Seam from '../../components/Seam.astro';
+import PhotoSlot from '../../components/PhotoSlot.astro';
+import Faq from '../../components/Faq.astro';
+import Cta from '../../components/Cta.astro';
+import { areaSchema, faqSchema } from '../../lib/schema';
+import { services } from '../../data/site';
+
+const path = '/areas/lancaster-pa/';
+const description =
+  'Concealment millwork in Lancaster, PA. Plaster on masonry, balloon framing and additions on additions — measured before anything ever gets quoted.';
+
+const conditions = [
+  ['Plaster on masonry', 'Downtown, a great many interior walls are plaster over brick with no stud bay behind them. There is nowhere to put an in-wall lift and nowhere to hide a back-box, so the mechanism moves into furniture, a furred-out wall, or a chimney breast that was closed up decades ago.'],
+  ['Balloon framing', 'In the older frame houses the bays run uninterrupted for two storeys, which is helpful for wire and unhelpful for fire blocking. Anything I open gets blocked properly on the way back up.'],
+  ['Additions on additions', 'A typical city house has had three of them. Floor levels change by an inch and a half between rooms, ceiling joists run three different directions, and none of it is on a drawing. This is a measuring job, not a guessing job.'],
+  ['Historic district review', 'Interior work is generally outside the review, but anything touching an exterior opening or a visible façade element is not. Worth confirming before design rather than during.'],
+];
+
+const faqs = [
+  {
+    q: 'Can a TV lift go into a downtown Lancaster row house?',
+    a: 'Usually, but rarely in the wall. With plaster on brick there is no cavity to work with, so the mechanism goes into a cabinet, a bench, a window seat or a furred-out section that gets designed to look intentional rather than added. That constraint often produces a better piece of furniture than a stud wall would have.',
+  },
+  {
+    q: 'Do you work with Lancaster cabinet shops and designers?',
+    a: 'That is most of the work. Lancaster County has an unusual concentration of serious cabinet shops, and the mechanism is the part that sits outside what most of them want to warranty. I take that piece and leave the casework, the finish and the client relationship where they are.',
+  },
+  {
+    q: 'How far is the shop from Lancaster?',
+    a: 'The workshop is in Ephrata, about twenty minutes north. Close enough that a return visit for adjustment six months after the invoice is a normal Tuesday rather than a favour.',
+  },
+  {
+    q: 'Is there a minimum project size for Lancaster?',
+    a: 'No. Inside the core service area a single install-only subcontract is worth doing, and those start at $600. Further out that stops being true, but not here.',
+  },
+];
+---
+
+<Base
+  title="TV lifts & hidden doors, Lancaster PA | Invisible Function"
+  description={description}
+  schema={[areaSchema({ city: 'Lancaster', path, description }), faqSchema(faqs)]}
+>
+  <PageHero
+    eyebrow="Service area · Lancaster"
+    lines={['Brick, plaster,', 'and nowhere', 'to put a lift']}
+    lead="Lancaster is a genuinely difficult city to conceal equipment in, and that is most of why this shop is interesting to work with here. The houses are old, the walls are solid, and almost nothing is where the drawing says it is."
+  />
+
+  <!-- ── What the buildings are actually like ─────────────────────────────── -->
+  <section class="section surface-paper">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Conditions</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Four things Lancaster does to a specification</h2></div>
+          <p class="lead soft" style="margin-top:1.1rem;max-width:58ch">
+            None of these are reasons not to do the work. They are reasons to
+            measure before quoting, which is the house rule anyway.
+          </p>
+
+          <div class="grid" style="--cols-lg:2;margin-top:clamp(1.75rem,3.5vw,2.5rem)">
+            {
+              conditions.map(([t, b], i) => (
+                <article class="panel" data-rv="leaf" style={`--rv-d:${i * 80}ms`}>
+                  <span class="panel__index">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 class="h3" style="margin-top:.85rem">{t}</h3>
+                  <p class="soft" style="margin-top:.7rem">{b}</p>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Two markets ──────────────────────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Two Lancasters</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">The city and the townships want different things</h2></div>
+          <div class="prose" style="margin-top:1.2rem">
+            <p>
+              In the city — the restored townhouses around Musser Park, Chestnut
+              Hill and the west end — the brief is almost always about not spoiling
+              a room. Ceilings are plaster, walls are masonry, and the client has
+              spent real money getting the room back to something coherent. A
+              television mounted on that wall undoes it. The answer is usually
+              furniture: a cabinet lift, a window seat, or a bookcase door into
+              what used to be a back stair.
+            </p>
+            <p>
+              Out in Manheim Township, along the Lititz Pike corridor and toward
+              Millersville, the housing is newer and the constraints invert. There
+              are stud bays and joist space and a basement to run wire through, and
+              the interesting problem becomes scale — a great room with a
+              twenty-foot wall, a ceiling lift over a trussed roof, or a kitchen
+              island that has to hide a screen and still take a stone top.
+            </p>
+            <p>
+              Both are normal weeks. The measuring visit tells me which problem I
+              actually have.
+            </p>
+          </div>
+
+          <div class="pair" style="margin-top:clamp(2rem,4vw,3rem)">
+            <PhotoSlot
+              what="Installed cabinet lift in a period Lancaster interior — plaster, trim, screen stowed"
+              ratio="3 / 2"
+              path="/images/areas/lancaster-city.jpg"
+            />
+            <PhotoSlot
+              what="Township great room, ceiling closure shut, wide enough to show the whole plane"
+              ratio="3 / 2"
+              path="/images/areas/lancaster-township.jpg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Services ─────────────────────────────────────────────────────────── -->
+  <section class="section surface-dark">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label label--accent">In Lancaster</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">All five mechanisms, same city</h2></div>
+          <ul class="ticks" style="margin-top:1.6rem;max-width:62ch">
+            {
+              services.map((s) => (
+                <li><a class="link" href={s.href}>{s.label}</a> — {s.blurb}</li>
+              ))
+            }
+          </ul>
+          <div class="btn-row" style="margin-top:2.25rem">
+            <a class="btn" href="/contact/">
+              Request a Lancaster quote
+              <span class="btn__tick" aria-hidden="true"></span>
+            </a>
+            <a class="btn btn--ghost" href="/pricing/">
+              Ranges
+              <span class="btn__tick" aria-hidden="true"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Questions</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Lancaster specifics</h2></div>
+          <div style="margin-top:clamp(1.5rem,3vw,2.25rem)">
+            <Faq items={faqs} id="lancaster" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    title="Twenty minutes from the shop"
+    body="Close enough that measuring before quoting costs nobody anything, and close enough that the adjustment visit six months later actually happens."
+    secondary={{ href: '/areas/lititz-pa/', label: 'Lititz' }}
+  />
+</Base>

@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Seam from '../components/Seam.astro';
+import { services, areas } from '../data/site';
+---
+
+<Base
+  title="Page not found | Invisible Function"
+  description="That page does not exist. The services, pricing and contact pages are linked here."
+>
+  <PageHero
+    eyebrow="404"
+    lines={['This one is', 'hidden a bit', 'too well']}
+    lead="There is nothing at that address. Concealment is the business, but not like this — here is everything that does exist."
+  />
+
+  <section class="section surface-paper">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Everything else</p>
+        <div class="pair">
+          <div>
+            <p class="label">Services</p>
+            <ul class="ticks" style="margin-top:1rem">
+              {services.map((s) => <li><a class="link" href={s.href}>{s.label}</a></li>)}
+            </ul>
+          </div>
+          <div>
+            <p class="label">Pages</p>
+            <ul class="ticks" style="margin-top:1rem">
+              <li><a class="link" href="/for-trade/">For trade partners</a></li>
+              <li><a class="link" href="/pricing/">Pricing</a></li>
+              <li><a class="link" href="/how-it-works/">Process</a></li>
+              <li><a class="link" href="/about/">About</a></li>
+              <li><a class="link" href="/contact/">Contact</a></li>
+              {areas.map((a) => <li><a class="link" href={a.href}>{a.label}, PA</a></li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,64 @@
+---
+import { site, services, areas } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="ftr surface-dark">
+  <div class="wrap">
+    <div class="ftr__grid">
+      <div>
+        <p class="label label--accent">Invisible Function</p>
+        <p class="lead" style="margin-top:.9rem;max-width:30ch">
+          Concealment mechanisms for media and equipment, built and installed by one shop.
+        </p>
+        <p class="mono soft" style="margin-top:1.4rem">
+          {site.city}, {site.regionName} {site.postalCode}<br />
+          {site.hours}
+        </p>
+      </div>
+
+      <nav aria-labelledby="ftr-svc">
+        <p class="label" id="ftr-svc">Services</p>
+        <ul class="ftr__list">
+          {services.map((s) => <li><a href={s.href}>{s.label}</a></li>)}
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="ftr-area">
+        <p class="label" id="ftr-area">Service area</p>
+        <ul class="ftr__list">
+          {areas.map((a) => <li><a href={a.href}>{a.label}, PA</a></li>)}
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="ftr-more">
+        <p class="label" id="ftr-more">Working with me</p>
+        <ul class="ftr__list">
+          <li><a href="/for-trade/">For trade partners</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+          <li><a href="/how-it-works/">Process</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- ===================================================================
+         AWARDS / CERTIFICATIONS / DEALER BADGES
+         Intentionally empty. Nothing goes here until something is earned.
+         Populate only with credentials that can be verified by a third party.
+
+         <ul class="ftr__badges">
+           <li><img src="/images/badges/…" alt="…" width="120" height="48"></li>
+         </ul>
+         =================================================================== -->
+
+    <div class="ftr__base">
+      <p>© {year} {site.name}. Ephrata, Pennsylvania.</p>
+      <p>
+        Independent of any lift manufacturer. Auton, Nexus 21, Future Automation,
+        Firgelli and Sonance are trademarks of their respective owners.
+      </p>
+    </div>
+  </div>
+</footer>

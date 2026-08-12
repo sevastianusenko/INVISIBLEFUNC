@@ -1,0 +1,154 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Seam from '../../components/Seam.astro';
+import PhotoSlot from '../../components/PhotoSlot.astro';
+import Faq from '../../components/Faq.astro';
+import Cta from '../../components/Cta.astro';
+import { serviceSchema, faqSchema } from '../../lib/schema';
+
+const path = '/services/invisible-speakers/';
+const description =
+  'Invisible in-wall speakers in Lancaster County: Sonance, Amina and Stealth drivers, plus the back-boxing and level-5 finish that keeps them invisible.';
+
+const faqs = [
+  {
+    q: 'Who does the finish coat — you or the painter?',
+    a: 'Me. This is the whole reason the service exists as its own line. An invisible speaker that is skimmed by whoever is available will telegraph its outline within a year as the compound and the substrate move at different rates. The finish work is not a separate trade here.',
+  },
+  {
+    q: 'Do they sound as good as a normal in-wall speaker?',
+    a: 'Not quite, and anyone who tells you otherwise is selling something. A good invisible driver in a properly built back-box, with the right amplification, is genuinely excellent for music in a living space and completely convincing for film dialogue and effects. A critical listening room should still have real speakers.',
+  },
+  {
+    q: 'Can they be painted or wallpapered over?',
+    a: 'Yes to paint, in any finish including a flat that will not telegraph. Wallpaper is possible with the right drivers and the right paper — heavy vinyl is a problem, and I will tell you before it is hung rather than after.',
+  },
+  {
+    q: 'Do I need an integrator as well?',
+    a: 'For anything beyond a pair of speakers and an amplifier, yes, and I will work to their design. Amplification, sources, distribution and control stay in their scope. If you are an integrator, this is normally where you subcontract me: your drivers, your amps, my wall.',
+  },
+];
+---
+
+<Base
+  title="Invisible in-wall speakers | Invisible Function"
+  description={description}
+  schema={[
+    serviceSchema({
+      name: 'Invisible in-wall speaker installation and finishing',
+      description,
+      path,
+      serviceType: 'Invisible in-wall loudspeaker installation with plaster finishing',
+    }),
+    faqSchema(faqs),
+  ]}
+>
+  <PageHero
+    eyebrow="M-05 · Invisible speakers"
+    lines={['Sound with', 'no visible', 'source']}
+    lead="Drivers that get skim-coated and painted over until the wall is just a wall. The speaker is the easy purchase. The back-box, the isolation and the finish coat are what decide whether it stays invisible in year three."
+  >
+    <div class="hero__reveal" style="margin-top:1.9rem">
+      <div class="btn-row" style="--d:820ms">
+        <a class="btn" href="/contact/">
+          Price a room
+          <span class="btn__tick" aria-hidden="true"></span>
+        </a>
+        <a class="btn btn--ghost" href="/for-trade/">
+          Integrator subcontract
+          <span class="btn__tick" aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+  </PageHero>
+
+  <!-- ── The argument ─────────────────────────────────────────────────────── -->
+  <section class="section surface-paper">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">The problem</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Invisible speakers fail at the wall, not the driver</h2></div>
+          <div class="prose" style="margin-top:1.2rem">
+            <p>
+              Sonance, Amina and Stealth Acoustics all make drivers that genuinely
+              disappear into a wall. Buying them is the straightforward part, and any
+              integrator can do it.
+            </p>
+            <p>
+              What goes wrong is the wall. The driver is a rigid plate set into a
+              flexible substrate, and it is then covered with joint compound by someone
+              who was booked for two days and treats it like a patch. Six months later
+              there is a faint rectangle in raking light, and by the second heating
+              season it has a hairline crack down one edge. Nobody can be held to
+              account for it, because the driver is fine and the drywall was signed off.
+            </p>
+            <p>
+              Here the driver, the back-box, the isolation detailing, the skim coat and
+              the final sanding are one scope and one person. If the outline shows,
+              it is mine.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Detailing ────────────────────────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Detailing</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">What is actually in the wall</h2></div>
+          <dl class="spec" style="margin-top:clamp(1.5rem,3vw,2.25rem);max-width:62ch">
+            <div class="spec__row"><dt class="spec__k">Drivers</dt><dd class="spec__v">Sonance · Amina · Stealth</dd></div>
+            <div class="spec__row"><dt class="spec__k">Wall depth needed</dt><dd class="spec__v">2–8 in</dd></div>
+            <div class="spec__row"><dt class="spec__k">Back-box</dt><dd class="spec__v">Sealed, damped, decoupled</dd></div>
+            <div class="spec__row"><dt class="spec__k">Skim</dt><dd class="spec__v">3 coats, feathered 18–24 in</dd></div>
+            <div class="spec__row"><dt class="spec__k">Finish level</dt><dd class="spec__v">Level 5</dd></div>
+            <div class="spec__row"><dt class="spec__k">Paint</dt><dd class="spec__v">Any sheen, flat included</dd></div>
+          </dl>
+
+          <div class="pair" style="margin-top:clamp(2rem,4vw,3rem)">
+            <PhotoSlot
+              what="Driver mounted in the stud bay before skimming, back-box and wiring visible"
+              ratio="4 / 3"
+              path="/images/speakers/driver-in-wall.jpg"
+            />
+            <PhotoSlot
+              what="Finished wall in raking light from a window — no visible outline anywhere"
+              ratio="4 / 3"
+              path="/images/speakers/finished-raking.jpg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────────────────────── -->
+  <section class="section surface-dark">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label label--accent">Questions</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Honest answers, including the unflattering one</h2></div>
+          <div style="margin-top:clamp(1.5rem,3vw,2.25rem)">
+            <Faq items={faqs} id="speakers" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    title="Usually specified alongside something else"
+    body="Invisible speakers are most often an add-on to a lift or a millwork package, which is the cheapest way to buy them — the wall is already open."
+    secondary={{ href: '/services/tv-lift-installation/', label: 'TV lifts' }}
+  />
+</Base>

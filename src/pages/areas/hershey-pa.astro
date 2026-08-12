@@ -1,0 +1,142 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Seam from '../../components/Seam.astro';
+import PhotoSlot from '../../components/PhotoSlot.astro';
+import Faq from '../../components/Faq.astro';
+import Cta from '../../components/Cta.astro';
+import { areaSchema, faqSchema } from '../../lib/schema';
+
+const path = '/areas/hershey-pa/';
+const description =
+  'TV and projector lifts in Hershey and Derry Township, PA. Engineered trusses, vaulted great rooms and finished basements decide what is possible.';
+
+const faqs = [
+  {
+    q: 'Can a ceiling lift go under a trussed roof?',
+    a: 'Not by cutting the truss — that is a structural member and altering it needs an engineer, a detail and usually a permit. What works instead is dropping a soffit or a coffer below the truss chord and putting the mechanism in that. It is a millwork solution to a structural constraint, and it usually looks better than a flat ceiling did.',
+  },
+  {
+    q: 'Is a vaulted great room a problem?',
+    a: 'It is the most common brief in this area and the least suited to a ceiling mechanism, because there is no flat plane to close into and the ceiling is often twenty feet up. The realistic answers are a floor lift in a cabinet, a screen that comes up from a console below the window line, or art that slides. I will say which of those the room can take before anyone gets attached to a drawing.',
+  },
+  {
+    q: 'Do you do basement theatre rooms?',
+    a: 'Regularly, and they are the easiest work in this housing stock. A finished basement with a dropped ceiling gives you joist space, easy wire routing, and a room that is already dark. Projector lifts and in-ceiling screen cassettes both go in without a fight.',
+  },
+  {
+    q: 'How far is Hershey from the shop?',
+    a: 'About forty minutes from Ephrata. Well within the range where measuring before quoting and returning for adjustment are both normal parts of the job rather than things that get quietly dropped.',
+  },
+];
+
+const constraints = [
+  ['Engineered trusses', 'Most of the housing built here since the 1990s has a trussed roof. Truss chords are structural and cannot be cut for a lift box, which rules out the obvious solution on a great many ceilings and pushes the work into a dropped soffit or a coffer.'],
+  ['Vaulted ceilings', 'Handsome, and hostile to concealment. No flat plane, no accessible cavity, and a mounting height that puts everything out of reach. The mechanism nearly always ends up at floor level instead.'],
+  ['Finished basements', 'The opposite problem, in the best way. Dropped ceilings, open joist space, straightforward wire routing, and a room already built for a screen. This is where projector lifts and screen cassettes belong.'],
+  ['Post-2000 great rooms', 'Two-storey walls with a fireplace in the middle and nowhere sensible for a television. Usually solved with a lift in the millwork below rather than by mounting anything at height.'],
+];
+---
+
+<Base
+  title="TV & projector lifts in Hershey, PA | Invisible Function"
+  description={description}
+  schema={[areaSchema({ city: 'Hershey', path, description }), faqSchema(faqs)]}
+>
+  <PageHero
+    eyebrow="Service area · Hershey"
+    lines={['Newer houses,', 'harder', 'ceilings']}
+    lead="Hershey and Derry Township are mostly modern construction, which people assume makes concealment easier. Often it makes it harder — an engineered truss cannot be cut, and a vaulted great room has no plane to close into."
+  />
+
+  <!-- ── Constraints ──────────────────────────────────────────────────────── -->
+  <section class="section surface-paper">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Constraints</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Four conditions that decide the design</h2></div>
+          <p class="lead soft" style="margin-top:1.1rem;max-width:58ch">
+            In older housing the question is whether there is a cavity. Here it is
+            whether the cavity is allowed to be touched.
+          </p>
+          <div class="grid" style="--cols-lg:2;margin-top:clamp(1.75rem,3.5vw,2.5rem)">
+            {
+              constraints.map(([t, b], i) => (
+                <article class="panel" data-rv="leaf" style={`--rv-d:${i * 80}ms`}>
+                  <span class="panel__index">{String(i + 1).padStart(2, '0')}</span>
+                  <h3 class="h3" style="margin-top:.85rem">{t}</h3>
+                  <p class="soft" style="margin-top:.7rem">{b}</p>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── The soffit answer ────────────────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">The usual answer</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Build the cavity rather than borrow one</h2></div>
+          <div class="prose" style="margin-top:1.2rem">
+            <p>
+              When the structure will not give up space, the honest move is to add
+              some. A dropped soffit or a coffered section built below the truss
+              chord creates a proper box for a lift and a proper plane for it to
+              close into — and it gives the room an architectural feature instead of
+              a suspiciously flat rectangle.
+            </p>
+            <p>
+              It costs more than cutting a hole in a ceiling would have. It is also
+              the difference between a mechanism that has somewhere to live and a
+              structural conversation nobody wanted to have. Where that trade-off
+              lands is a decision for the client, made with both numbers written
+              down.
+            </p>
+          </div>
+          <div class="pair" style="margin-top:clamp(2rem,4vw,3rem)">
+            <PhotoSlot
+              what="Dropped soffit under construction with the lift box framed inside it"
+              ratio="3 / 2"
+              path="/images/areas/hershey-soffit-frame.jpg"
+            />
+            <PhotoSlot
+              what="Same soffit finished and painted, closure panel shut, reading as architecture"
+              ratio="3 / 2"
+              path="/images/areas/hershey-soffit-done.jpg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────────────────────── -->
+  <section class="section surface-dark">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label label--accent">Questions</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Hershey specifics</h2></div>
+          <div style="margin-top:clamp(1.5rem,3vw,2.25rem)">
+            <Faq items={faqs} id="hershey" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    title="Send a photo looking up"
+    body="For anything in this area the ceiling decides the project. A photo straight up from where the screen should go, plus the ceiling height, is enough for a first answer."
+    secondary={{ href: '/services/projector-and-screen-lifts/', label: 'Projector lifts' }}
+  />
+</Base>

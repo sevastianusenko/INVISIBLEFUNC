@@ -1,0 +1,147 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Seam from '../../components/Seam.astro';
+import PhotoSlot from '../../components/PhotoSlot.astro';
+import Faq from '../../components/Faq.astro';
+import Cta from '../../components/Cta.astro';
+import { areaSchema, faqSchema } from '../../lib/schema';
+
+const path = '/areas/west-chester-pa/';
+const description =
+  'Concealment millwork in West Chester and the Philadelphia suburbs — larger scopes only, with the travel policy stated up front rather than at quote.';
+
+const faqs = [
+  {
+    q: 'Why is there a minimum out here that there is not in Lancaster?',
+    a: 'Because this is a one-person shop and the drive is about ninety minutes each way. A $600 install-only subcontract does not survive three hours in a van, and pretending otherwise would mean either a bad price for you or a rushed job. A whole-room package absorbs the travel without either of those.',
+  },
+  {
+    q: 'What counts as a large enough scope?',
+    a: 'As a rough line: a full millwork package with a mechanism in it, two or more mechanisms in the same house, or a hidden door plus associated casework. If you are not sure, describe it — I will give you a straight yes or no rather than a quote designed to discourage you.',
+  },
+  {
+    q: 'How do you handle service on a job this far out?',
+    a: 'The post-install adjustment visit is priced into the job from the start, the same as everywhere else. Beyond that, service calls out here are batched — I would rather come once for three things than three times for one, and I will tell you honestly when I am next in the area.',
+  },
+  {
+    q: 'Do you work with Main Line architects and designers?',
+    a: 'Yes, and this is the sort of work the travel exists for. A designer specifying a concealed screen into a stone house needs someone who will measure it properly and say no when the wall cannot take it, which is worth a drive from either direction.',
+  },
+];
+---
+
+<Base
+  title="Concealment millwork, West Chester PA | Invisible Function"
+  description={description}
+  schema={[areaSchema({ city: 'West Chester', path, description }), faqSchema(faqs)]}
+>
+  <PageHero
+    eyebrow="Service area · West Chester"
+    lines={['Worth the', 'drive, for', 'the right job']}
+    lead="West Chester and the Philadelphia suburbs are ninety minutes from the shop. That rules out single small installs and rules in whole-room millwork packages — which is stated here plainly rather than discovered at quote stage."
+  />
+
+  <!-- ── The honest policy ────────────────────────────────────────────────── -->
+  <section class="section surface-dark">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label label--accent">Travel policy</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">What travels, and what does not</h2></div>
+          <div class="pair" style="margin-top:clamp(1.75rem,3.5vw,2.5rem)">
+            <div>
+              <p class="label">Worth the drive</p>
+              <ul class="ticks" style="margin-top:1rem">
+                <li>A full millwork package with mechanisms in it</li>
+                <li>Two or more mechanisms in one house</li>
+                <li>A hidden door with associated casework</li>
+                <li>A whole-room build with wiring and finish work</li>
+                <li>Anything where I am on site for several consecutive days</li>
+              </ul>
+            </div>
+            <div>
+              <p class="label">Better served locally</p>
+              <ul class="ticks" style="margin-top:1rem">
+                <li>A single install-only subcontract</li>
+                <li>An hour of adjustment on someone else's mechanism</li>
+                <li>Warranty work on equipment I did not supply</li>
+                <li>Anything that needs same-week attendance</li>
+              </ul>
+            </div>
+          </div>
+          <p class="mono soft" style="margin-top:1.9rem;max-width:60ch">
+            If a project sits in the second column, I will say so within a day and,
+            where I can, point you at someone closer. That is a better outcome than
+            a price built to talk you out of it.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── The building stock ───────────────────────────────────────────────── -->
+  <section class="section surface-paper">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Chester County stone</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Walls that are two feet thick and not remotely flat</h2></div>
+          <div class="prose" style="margin-top:1.2rem">
+            <p>
+              A good deal of the older housing out here is fieldstone, sometimes
+              with a frame addition or three attached to it. Those walls have no
+              cavity, no consistent thickness and no straight line anywhere in
+              them, and a mechanism that assumes any of the three will bind within
+              a season.
+            </p>
+            <p>
+              The work is therefore mostly freestanding or furred-out: a cabinet
+              lift built to sit against a wall that is out of plumb by an inch and
+              a half, scribed to the stone so the gap reads as intentional. That is
+              a millwork problem with a mechanism in it, which is the specific
+              combination this shop exists for — and it is why larger scopes out
+              here work well and single installs do not.
+            </p>
+          </div>
+          <div class="pair" style="margin-top:clamp(2rem,4vw,3rem)">
+            <PhotoSlot
+              what="Cabinet scribed to an irregular stone wall — detail of the scribe line"
+              ratio="4 / 3"
+              path="/images/areas/west-chester-scribe.jpg"
+            />
+            <PhotoSlot
+              what="Completed millwork run in a stone house, screen stowed, wide frame"
+              ratio="4 / 3"
+              path="/images/areas/west-chester-run.jpg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Questions</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">West Chester specifics</h2></div>
+          <div style="margin-top:clamp(1.5rem,3vw,2.25rem)">
+            <Faq items={faqs} id="westchester" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    title="Describe the whole scope, not just the lift"
+    body="Out here the scope decides whether the job works for both of us. Tell me everything that is in the room and you will get a straight answer within a day."
+    secondary={{ href: '/for-trade/', label: 'Trade terms' }}
+  />
+</Base>

@@ -1,0 +1,38 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  index: string;
+  blurb: string;
+  specs: string[];
+  wide?: boolean;
+  delay?: number;
+}
+const { href, label, index, blurb, specs, wide = false, delay = 0 } = Astro.props;
+---
+
+<a
+  class:list={['card', wide && 'card--wide']}
+  href={href}
+  data-rv="leaf"
+  style={delay ? `--rv-d:${delay}ms` : undefined}
+>
+  <div class="card__head">
+    <span class="panel__index">{index}</span>
+    <span class="label" aria-hidden="true">Service</span>
+  </div>
+
+  <h3 class="h3 card__title">{label}</h3>
+  <p class="card__desc">{blurb}</p>
+
+  <!-- Behind the face of the card: the numbers a specifier actually needs. -->
+  <div class="card__drawer">
+    <div>
+      <ul class="card__specs">
+        {specs.map((s) => <li>{s}</li>)}
+      </ul>
+    </div>
+  </div>
+
+  <span class="card__go">Open <i aria-hidden="true"></i></span>
+</a>

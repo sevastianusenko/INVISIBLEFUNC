@@ -1,0 +1,28 @@
+---
+/**
+ * A photography slot that has not been filled yet.
+ *
+ * This is deliberately not a grey box and not a stock photo: it is a shop
+ * drawing that states what belongs here. Every instance is listed in
+ * PHOTOS-NEEDED.md. Replace with <img> when real photography exists.
+ */
+interface Props {
+  /** What to shoot. Written for whoever is holding the camera. */
+  what: string;
+  /** CSS aspect-ratio value, e.g. "3 / 2". */
+  ratio?: string;
+  /** Intended final file path. */
+  path: string;
+  kicker?: string;
+  class?: string;
+}
+const { what, ratio = '3 / 2', path, kicker = 'Photograph required', class: cls = '' } = Astro.props;
+---
+
+<figure class:list={['slot', cls]} style={`--ar:${ratio}`}>
+  <div class="slot__inner">
+    <span class="slot__kicker">{kicker}</span>
+    <figcaption class="slot__what">{what}</figcaption>
+    <span class="slot__meta">{ratio.replace(/\s/g, '')} &nbsp;·&nbsp; {path}</span>
+  </div>
+</figure>

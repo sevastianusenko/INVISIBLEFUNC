@@ -1,0 +1,188 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Seam from '../components/Seam.astro';
+import PhotoSlot from '../components/PhotoSlot.astro';
+import Faq from '../components/Faq.astro';
+import Cta from '../components/Cta.astro';
+import { faqSchema } from '../lib/schema';
+
+const steps = [
+  {
+    n: '01',
+    t: 'Consult',
+    when: 'Half an hour',
+    b: 'A conversation about the room, the screen, and what the client wants to be looking at when nothing is playing. Most of it is about the wall, not the mechanism. This is also where I say if the thing being asked for is a bad idea — which happens often enough to be worth mentioning here.',
+    need: 'Roughly what you want to hide, and where.',
+    get: 'An honest read on whether it is straightforward, awkward, or not possible.',
+  },
+  {
+    n: '02',
+    t: 'Measure',
+    when: 'One visit',
+    b: 'Field dimensions, not plan dimensions. Ceiling depth, joist direction and spacing, stud bays, floor build-up, existing wiring, and how far out of square the opening actually is. On a retrofit I will open a small inspection hole rather than guess, and patch it before I leave.',
+    need: 'Access, and about an hour.',
+    get: 'A dimensioned record of the real conditions, which is yours whether or not you go ahead.',
+  },
+  {
+    n: '03',
+    t: 'Specify',
+    when: '2 business days',
+    b: 'The mechanism gets chosen against the measured numbers rather than the brochure. You get the model number, the reason, and the option I did not pick with its price — so the decision stays visible instead of disappearing into a line item called "TV lift".',
+    need: 'The screen model, or its weight and diagonal.',
+    get: 'A written specification, a price, and a second option. Quote holds 30 days.',
+  },
+  {
+    n: '04',
+    t: 'Build',
+    when: '2–5 weeks',
+    b: 'Cabinet, leaf or ceiling closure built in the shop in Ephrata. The mechanism is mounted and cycled several hundred times on the bench, loaded, before it goes anywhere near a house. Mechanisms that are going to fail early mostly do it here, which is exactly where they should.',
+    need: 'Approval on the drawing and the finish.',
+    get: 'Bench photographs, and a firm install date once the mechanism has passed its cycles.',
+  },
+  {
+    n: '05',
+    t: 'Install',
+    when: '1–3 days',
+    b: 'Set, shimmed, wired, terminated and adjusted until the reveal is even along its whole length rather than just at the corners. Drywall is cut, patched and finished by the same hands. Floors and finishes get protected before anything comes through the door.',
+    need: 'Site access and power. Not much else.',
+    get: 'A working mechanism, a finished wall, and the site left clean.',
+  },
+  {
+    n: '06',
+    t: 'Handoff',
+    when: 'Same day, then again in six months',
+    b: 'Cycle the mechanism with whoever will actually use it. Label the control paths. Leave the manual override procedure, the spare fasteners and the mechanism documentation on site. Then a return visit after the first heating season, because the house will have moved and the reveal will want a quarter turn.',
+    need: 'Ten minutes of whoever uses it.',
+    get: 'Documentation, a booked adjustment visit, and one phone number for the next ten years.',
+  },
+];
+
+const faqs = [
+  {
+    q: 'How far ahead do you need to be involved?',
+    a: 'Before framing closes, ideally. A lift or a hidden door has rough-in requirements — blocking, a framed opening at a specific dimension, conduit — and those are cheap before the drywall and expensive after. If the house is already finished, that is fine too; it just changes what is possible.',
+  },
+  {
+    q: 'What if the measurement changes the plan?',
+    a: 'Then the plan changes, and you hear about it in step two rather than on install day. That is the entire reason the measurement is a separate step with its own visit instead of a box ticked during the sales conversation.',
+  },
+  {
+    q: 'Do you work while the house is occupied?',
+    a: 'Yes, regularly. Retrofit work in a lived-in house is a large part of this trade. It means dust control, protection, and doing the noisy part in one block rather than spread across a week.',
+  },
+  {
+    q: 'What does the adjustment visit cover?',
+    a: 'Reveal, alignment, latch engagement, travel limits and control paths, plus anything that has started to sound different. It is included in the price of a build. If nothing needs doing, that is a good visit, not a wasted one.',
+  },
+];
+---
+
+<Base
+  title="How a project runs, start to handoff | Invisible Function"
+  description="Six steps from first conversation to handoff — consult, measure, specify, build, install and adjust. What happens at each, and how long each one takes."
+  schema={[faqSchema(faqs)]}
+>
+  <PageHero
+    eyebrow="Process"
+    lines={['Six steps,', 'in this order,', 'every time']}
+    lead="The order matters more than it looks. Most of what goes wrong in this trade goes wrong because somebody specified a mechanism before anyone measured the opening it had to fit."
+  />
+
+  <!-- ── The six ──────────────────────────────────────────────────────────── -->
+  <section class="section surface-paper">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Sequence</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">From first conversation to handoff</h2></div>
+          <div class="stack" style="--gap:1rem;margin-top:clamp(1.75rem,3.5vw,2.5rem)">
+            {
+              steps.map((s, i) => (
+                <article class="panel" data-rv="leaf" style={`--rv-d:${i * 65}ms`}>
+                  <div class="card__head">
+                    <span class="panel__index">{s.n}</span>
+                    <span class="mono soft">{s.when}</span>
+                  </div>
+                  <h3 class="h3" style="margin-top:.85rem">{s.t}</h3>
+                  <p class="soft" style="margin-top:.75rem;max-width:66ch">{s.b}</p>
+                  <div class="pair" style="margin-top:1.5rem">
+                    <div>
+                      <p class="label">What I need</p>
+                      <p style="margin-top:.5rem;font-size:.95rem;line-height:1.55">{s.need}</p>
+                    </div>
+                    <div>
+                      <p class="label">What you get</p>
+                      <p style="margin-top:.5rem;font-size:.95rem;line-height:1.55">{s.get}</p>
+                    </div>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── The bench ────────────────────────────────────────────────────────── -->
+  <section class="section surface-dark">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label label--accent">Step four, expanded</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">Several hundred cycles before it leaves the shop</h2></div>
+          <div class="prose" style="margin-top:1.2rem">
+            <p>
+              A mechanism that is going to bind, drift out of level, develop a noise or
+              lose its limits will usually start doing it inside the first few hundred
+              cycles. In a house, that is two years of ordinary use and a service call
+              in a finished room.
+            </p>
+            <p>
+              On the bench, loaded to the real screen weight, it is an afternoon. So
+              every build gets cycled under load before it is installed, and anything
+              that misbehaves goes back to the supplier rather than into a wall.
+            </p>
+          </div>
+          <div class="pair" style="margin-top:clamp(2rem,4vw,3rem)">
+            <PhotoSlot
+              what="Bench setup: mechanism loaded with ballast to the real screen weight, mid-cycle"
+              ratio="3 / 2"
+              path="/images/process/bench-load-test.jpg"
+            />
+            <PhotoSlot
+              what="Shop interior, Ephrata — wide, honest, working rather than styled"
+              ratio="3 / 2"
+              path="/images/process/shop-wide.jpg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ──────────────────────────────────────────────────────────────── -->
+  <section class="section surface-light">
+    <div class="wrap">
+      <Seam />
+      <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+        <p class="label rail__label">Questions</p>
+        <div>
+          <div data-rv="lift"><h2 class="h2">About the sequence</h2></div>
+          <div style="margin-top:clamp(1.5rem,3vw,2.25rem)">
+            <Faq items={faqs} id="process" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    title="Step one is a half-hour conversation"
+    body="No showroom, no presentation, no mechanism named until something has been measured. Bring the room and the problem."
+    secondary={{ href: '/pricing/', label: 'What it costs' }}
+  />
+</Base>

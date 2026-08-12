@@ -1,0 +1,22 @@
+{
+  "name": "invisible-function",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "fonts": "node scripts/copy-fonts.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.0",
+    "astro": "^5.16.0"
+  },
+  "devDependencies": {
+    "@fontsource-variable/archivo": "^5.2.6",
+    "@fontsource-variable/source-serif-4": "^5.2.6",
+    "@fontsource/ibm-plex-mono": "^5.2.6"
+  }
+}
