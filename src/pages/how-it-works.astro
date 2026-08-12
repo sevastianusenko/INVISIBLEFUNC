@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Seam from '../components/Seam.astro';
 import PhotoSlot from '../components/PhotoSlot.astro';
+import Band from '../components/Band.astro';
 import Faq from '../components/Faq.astro';
 import Cta from '../components/Cta.astro';
 import { faqSchema } from '../lib/schema';
@@ -126,8 +127,16 @@ const faqs = [
     </div>
   </section>
 
+  <Band
+    src="/images/bands/handwork.webp"
+    alt="Two hands guiding a hand plane along a board, with a pile of fresh shavings gathering in front of the blade."
+    caption="Reference — hand plane and shavings"
+    width={2000}
+    height={750}
+  />
+
   <!-- ── The bench ────────────────────────────────────────────────────────── -->
-  <section class="section surface-dark">
+  <section class="section surface-dark surface-dark--grain">
     <div class="wrap">
       <Seam />
       <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">

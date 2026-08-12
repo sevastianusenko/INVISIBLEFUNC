@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Seam from '../components/Seam.astro';
 import Faq from '../components/Faq.astro';
+import Finishes from '../components/Finishes.astro';
 import Cta from '../components/Cta.astro';
 import { faqSchema } from '../lib/schema';
 
@@ -160,6 +161,12 @@ const faqs = [
       </div>
     </div>
   </section>
+
+  <Finishes
+    eyebrow="Finish schedule"
+    title="Work to your schedule, or to mine"
+    lead="Paint grade, stain grade, veneer to a sample, or unfinished for your finisher to spray. Say which at quote stage — it changes both the shop time and the price."
+  />
 
   <!-- ── Handoff ──────────────────────────────────────────────────────────── -->
   <section class="section surface-light">

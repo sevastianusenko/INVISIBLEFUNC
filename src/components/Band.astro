@@ -1,0 +1,22 @@
+---
+/**
+ * A full-bleed material band. Reference photography only — a tool, a material
+ * or a piece of hardware, never a room and never work by this shop.
+ *
+ * The caption says what the photograph is, so nobody has to guess whether it
+ * is a project.
+ */
+interface Props {
+  src: string;
+  alt: string;
+  caption: string;
+  width: number;
+  height: number;
+}
+const { src, alt, caption, width, height } = Astro.props;
+---
+
+<figure class="band" data-rv="leaf">
+  <img src={src} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
+  <figcaption class="band__cap">{caption}</figcaption>
+</figure>

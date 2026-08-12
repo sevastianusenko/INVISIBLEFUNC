@@ -1,0 +1,88 @@
+---
+import Seam from './Seam.astro';
+
+/**
+ * The finish and hardware palette — what a client or a designer is actually
+ * choosing between when they specify a job.
+ *
+ * These are material references, in the same sense as a finish schedule or a
+ * sample board. They are not photographs of work by this shop, and the note at
+ * the foot of the section says so in plain words.
+ */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead: string;
+}
+const { eyebrow = 'Finishes', title, lead } = Astro.props;
+
+const finishes = [
+  {
+    src: '/images/finishes/paint-grade.webp',
+    label: 'Paint grade',
+    note: 'Poplar or MDF, sprayed to any sheen',
+    alt: 'A smooth painted wall surface, close up, showing an even matt finish.',
+  },
+  {
+    src: '/images/finishes/white-oak.webp',
+    label: 'White oak',
+    note: 'Rift or quarter sawn, clear or fumed',
+    alt: 'Close-up of pale white oak with straight, even grain running vertically.',
+  },
+  {
+    src: '/images/finishes/walnut.webp',
+    label: 'Walnut',
+    note: 'Solid or veneer, matched across a run',
+    alt: 'Close-up of dark walnut boards with strong figure and warm brown tone.',
+  },
+  {
+    src: '/images/finishes/plaster.webp',
+    label: 'Level-5 plaster',
+    note: 'Skimmed flat where a mechanism meets the wall',
+    alt: 'A white plastered wall with visible trowel texture before final sanding.',
+  },
+  {
+    src: '/images/finishes/brass.webp',
+    label: 'Aged brass',
+    note: 'Unlacquered, left to darken with handling',
+    alt: 'Dark timber drawer fronts fitted with slim aged brass pull handles.',
+  },
+];
+---
+
+<section class="section surface-light">
+  <div class="wrap">
+    <Seam />
+    <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
+      <p class="label rail__label">{eyebrow}</p>
+      <div>
+        <div data-rv="lift"><h2 class="h2">{title}</h2></div>
+        <p class="lead soft" style="margin-top:1.1rem;max-width:56ch">{lead}</p>
+
+        <ul class="finishes" style="margin-top:clamp(1.75rem,3.5vw,2.5rem)">
+          {
+            finishes.map((f, i) => (
+              <li class="finish" data-rv="leaf" style={`--rv-d:${i * 70}ms`}>
+                <img
+                  src={f.src}
+                  alt={f.alt}
+                  width="560"
+                  height="700"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="finish__label">{f.label}</span>
+                <p class="finish__note">{f.note}</p>
+              </li>
+            ))
+          }
+        </ul>
+
+        <p class="mono soft" style="margin-top:1.35rem;max-width:64ch">
+          Material and hardware references, not project photography. Nothing on
+          this site shows a finished job yet — that changes with the first one.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

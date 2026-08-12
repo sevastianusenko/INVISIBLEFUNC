@@ -3,6 +3,8 @@ import Base from '../layouts/Base.astro';
 import Seam from '../components/Seam.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import BeforeAfter from '../components/BeforeAfter.astro';
+import Band from '../components/Band.astro';
+import Finishes from '../components/Finishes.astro';
 import Cta from '../components/Cta.astro';
 import { services, areas, site } from '../data/site';
 
@@ -98,6 +100,17 @@ const steps = [
     </div>
   </section>
 
+  <!-- ── Material band ────────────────────────────────────────────────────
+       Reference photography, captioned as such. The gesture is the product:
+       a flush front, a shadow gap, and a pull you have to know about. -->
+  <Band
+    src="/images/bands/hardware.webp"
+    alt="A hand opening a flush cabinet front by a slim aged brass edge pull, with a narrow shadow gap running alongside it."
+    caption="Reference — aged brass edge pull on a flush front"
+    width={2000}
+    height={750}
+  />
+
   <!-- ── Two differentiators ─────────────────────────────────────────────── -->
   <section class="section surface-paper">
     <div class="wrap">
@@ -185,6 +198,11 @@ const steps = [
     </div>
   </section>
 
+  <Finishes
+    title="What it gets built out of"
+    lead="The finish schedule is usually settled before the mechanism is. These are the five that come up on nearly every job."
+  />
+
   <!-- ── Proof device ─────────────────────────────────────────────────────── -->
   <section class="section surface-paper">
     <div class="wrap">
@@ -221,7 +239,7 @@ const steps = [
   </section>
 
   <!-- ── For trade ────────────────────────────────────────────────────────── -->
-  <section class="section surface-dark">
+  <section class="section surface-dark surface-dark--grain">
     <div class="wrap">
       <Seam />
       <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">

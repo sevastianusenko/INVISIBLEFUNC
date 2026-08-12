@@ -1,8 +1,24 @@
 # Photography needed
 
-Every image slot on the site is currently a labelled placeholder — a shop
-drawing that states what belongs there. Nothing on this site implies work that
-has not been done.
+## What is already on the site
+
+The site now carries **licensed reference photography** — five finish and
+hardware tiles, two wide material bands and one background texture. All of it
+is from Pexels, self-hosted as WebP, and credited in [CREDITS.md](CREDITS.md).
+Re-fetch or re-crop with `PEXELS_KEY=... npm run photos`.
+
+Those images are materials, tools and hardware. **None of them is a room, and
+none of them is presented as work by this shop** — each carries a caption or a
+label saying what it is. One candidate (a wall of flush panels with a lit
+recess) was rejected during selection precisely because it read as a finished
+interior; the reason is recorded in `scripts/fetch-photos.mjs`.
+
+## What is still missing
+
+Everything below is **project photography** — pictures of work this shop has
+actually done. No stock photograph can fill any of these, because each one
+makes a claim about a completed job. They remain labelled placeholders: a shop
+drawing that states what belongs there.
 
 Each slot is rendered by `src/components/PhotoSlot.astro`. To fill one:
 
@@ -21,7 +37,14 @@ true.
 
 **The one rule.** Do not fill any of these with stock photography or with
 another shop's work. The site argues for honesty about a new business; a
-borrowed photo undoes the whole argument in one click.
+borrowed photo undoes the whole argument in one click. Reference material —
+finishes, hardware, textures — is a different thing and is already handled; see
+CREDITS.md.
+
+**Manufacturer photography.** Auton, Nexus 21, Future Automation, Firgelli and
+Sonance all publish good product images, and none of them may be used here
+until that manufacturer grants permission in writing. If permission comes
+through, record the grant in CREDITS.md alongside the image.
 
 ---
 

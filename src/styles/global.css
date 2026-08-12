@@ -939,6 +939,101 @@ button, input, textarea, select {
 .slot::before { top: 10px; left: 10px; width: 20px; height: 2px; }
 .slot::after { bottom: 10px; right: 10px; width: 20px; height: 2px; }
 
+/* --- Material bands and finish tiles -------------------------------------- */
+/* Reference photography only. Both carry a caption or a label saying what the
+   image is, so no photograph on this site has to be guessed at. */
+
+.band {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: var(--cavity);
+}
+.band img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 8 / 3;
+  object-fit: cover;
+}
+@media (max-width: 700px) {
+  .band img { aspect-ratio: 3 / 2; }
+}
+.band__cap {
+  position: absolute;
+  right: var(--gutter);
+  bottom: clamp(0.85rem, 2vw, 1.5rem);
+  max-width: min(38ch, 70%);
+  padding: 0.5rem 0.8rem;
+  border-radius: 2px;
+  background: rgba(34, 29, 24, 0.84);
+  color: var(--on-cavity);
+  font-family: var(--ff-mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.09em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.finishes {
+  display: grid;
+  gap: clamp(0.6rem, 1.2vw, 1rem);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 640px) { .finishes { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1040px) { .finishes { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+
+.finish {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--panel-edge);
+  border-radius: var(--r);
+  background: var(--panel-bg);
+}
+.finish img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+.finish__label {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  padding: 0.36rem 0.6rem;
+  border-radius: 2px;
+  background: rgba(34, 29, 24, 0.84);
+  color: var(--on-cavity);
+  font-family: var(--ff-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.finish__note {
+  padding: 0.7rem 0.8rem 0.85rem;
+  margin: 0;
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  line-height: 1.45;
+  color: var(--fg-soft);
+}
+
+/* Dark sections can carry the grain behind them. The image sits under a near
+   opaque wash of --cavity so text contrast is unchanged; it reads as material,
+   not as a picture. */
+.surface-dark--grain { position: relative; isolation: isolate; }
+.surface-dark--grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(34, 29, 24, 0.88), rgba(34, 29, 24, 0.88)),
+    url('/images/texture/dark-grain.webp');
+  background-size: cover, cover;
+  background-position: center, center;
+}
+
 /* --- Before / after ------------------------------------------------------- */
 
 .ba {

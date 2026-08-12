@@ -22,6 +22,16 @@ npm run build   # static output into dist/
 npm run preview # serve dist/ locally
 ```
 
+Images are committed, so there is nothing to fetch. To re-crop or swap the
+reference photography:
+
+```bash
+PEXELS_KEY=your_key npm run photos
+```
+
+The key is only needed for that command — it is never read at runtime and is
+not stored in the repo.
+
 Node 20 or newer.
 
 `npm run fonts` copies four `.woff2` files out of `node_modules` into
@@ -167,13 +177,22 @@ no testimonials, no client names, no reviews or ratings, no project counts, no
 years-in-business and no statistics of any kind. Every image slot is a labelled
 placeholder describing the photograph that belongs there.
 
-Two files track what is still owed:
+The photography that *is* here draws a hard line: **materials, tools and
+hardware only — never a room, and never anything presented as this shop's
+work.** Every one of those images carries a caption or label saying what it is,
+and the finishes section says in plain words that they are references rather
+than projects. Project slots stay as labelled shop drawings until real
+photography exists.
 
-- **[PHOTOS-NEEDED.md](PHOTOS-NEEDED.md)** — every image slot, what to shoot,
-  aspect ratio, file path.
+Three files track what is still owed:
+
+- **[PHOTOS-NEEDED.md](PHOTOS-NEEDED.md)** — every remaining image slot, what to
+  shoot, aspect ratio, file path.
 - **[CONTENT-TODO.md](CONTENT-TODO.md)** — the placeholder phone number, the
   unconnected form handler, the deliberately empty badge and background
   sections, and what to add once real projects exist.
+- **[CREDITS.md](CREDITS.md)** — every photograph on the site, what it is used
+  for, and who took it.
 
 Read CONTENT-TODO.md before launching. The published phone number is currently
 in the reserved 555 range and will not connect.
