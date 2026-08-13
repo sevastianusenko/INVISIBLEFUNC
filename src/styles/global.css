@@ -1020,18 +1020,26 @@ button, input, textarea, select {
 
 /* Dark sections can carry the grain behind them. The image sits under a near
    opaque wash of --cavity so text contrast is unchanged; it reads as material,
-   not as a picture. */
+   not as a picture. See Grain.astro for why it is an <img> and not a
+   background-image. */
 .surface-dark--grain { position: relative; isolation: isolate; }
-.surface-dark--grain::before {
-  content: '';
+.grain {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-image:
-    linear-gradient(rgba(34, 29, 24, 0.88), rgba(34, 29, 24, 0.88)),
-    url('/images/texture/dark-grain.webp');
-  background-size: cover, cover;
-  background-position: center, center;
+  overflow: hidden;
+  background: var(--cavity);
+}
+.grain img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(34, 29, 24, 0.88);
 }
 
 /* --- Before / after ------------------------------------------------------- */

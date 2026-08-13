@@ -4,6 +4,7 @@ import PageHero from '../components/PageHero.astro';
 import Seam from '../components/Seam.astro';
 import PhotoSlot from '../components/PhotoSlot.astro';
 import Band from '../components/Band.astro';
+import Grain from '../components/Grain.astro';
 import Faq from '../components/Faq.astro';
 import Cta from '../components/Cta.astro';
 import { faqSchema } from '../lib/schema';
@@ -137,6 +138,7 @@ const faqs = [
 
   <!-- ── The bench ────────────────────────────────────────────────────────── -->
   <section class="section surface-dark surface-dark--grain">
+    <Grain />
     <div class="wrap">
       <Seam />
       <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">

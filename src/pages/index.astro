@@ -4,6 +4,7 @@ import Seam from '../components/Seam.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import BeforeAfter from '../components/BeforeAfter.astro';
 import Band from '../components/Band.astro';
+import Grain from '../components/Grain.astro';
 import Finishes from '../components/Finishes.astro';
 import Cta from '../components/Cta.astro';
 import { services, areas, site } from '../data/site';
@@ -240,6 +241,7 @@ const steps = [
 
   <!-- ── For trade ────────────────────────────────────────────────────────── -->
   <section class="section surface-dark surface-dark--grain">
+    <Grain />
     <div class="wrap">
       <Seam />
       <div class="rail" style="margin-top:clamp(2rem,4vw,3.5rem)">
