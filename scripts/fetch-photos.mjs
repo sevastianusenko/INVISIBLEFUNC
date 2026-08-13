@@ -35,7 +35,9 @@ const PICKS = [
   // Fine grain compresses badly; quality is tuned per image rather than shared.
   { id: 1260727, out: 'finishes/paint-grade.webp', w: 560, h: 700, q: 62, label: 'Paint grade' },
   { id: 6757411, out: 'finishes/white-oak.webp', w: 560, h: 700, q: 68, label: 'White oak' },
-  { id: 28101611, out: 'finishes/walnut.webp', w: 560, h: 700, q: 68, label: 'Walnut' },
+  // Was #28101611 — reclaimed-looking planks. A cabinet shop reads that as barn
+  // wood, not as a furniture-grade surface, which undercuts the tile it sits in.
+  { id: 8337527, out: 'finishes/walnut.webp', w: 560, h: 700, q: 70, label: 'Walnut' },
   { id: 1843717, out: 'finishes/plaster.webp', w: 560, h: 700, q: 70, label: 'Level-5 plaster' },
   { id: 5825540, out: 'finishes/brass.webp', w: 560, h: 700, q: 74, label: 'Aged brass' },
 
